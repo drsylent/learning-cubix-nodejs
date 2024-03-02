@@ -129,5 +129,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# PDF files
+# for learning
 *.pdf
+*.zip
