@@ -44,12 +44,15 @@ async function retrieveOperationSelect() {
     return allowedOperations[operationName];
 }
 
-async function retrieveNumber(side) {
+async function retrieveNumber(side, additionalValidation) {
     return parseInt(await input({ 
         message: `Add meg a művelet ${side} oldalán álló számot!`,
         validate: (input) => {
             if (Number.isNaN(parseInt(input))) {
                 return 'Kérlek számot adj meg!';
+            }
+            if (additionalValidation) {
+                return additionalValidation(parseInt(input));
             }
             return true;
         }
@@ -62,7 +65,12 @@ async function run() {
     // const operation = await retrieveOperationSelect();
 
     const firstNumber = await retrieveNumber("bal");
-    const secondNumber = await retrieveNumber("jobb");
+    const secondNumber = await retrieveNumber("jobb", (parsedInput) => {
+        if (operation === allowedOperations["osztás"] && parsedInput === 0) {
+            return "Osztás jobb oldalán nem értelmezett a 0!"
+        }
+        return true;
+    });
 
     const result = operation.function(firstNumber, secondNumber);
     console.log(`${firstNumber} ${chalk.red(operation.symbol)} ${secondNumber} = ${chalk.blue(result)}`);
