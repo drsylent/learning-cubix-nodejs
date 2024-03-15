@@ -1,8 +1,8 @@
 // using recommended libraries: chalk and @inquirer/prompts
 
-const chalk = require('chalk');
-const { input, select } = require('@inquirer/prompts');
-const { add, subtract, multiply, divide } = require('./calculator.js');
+import chalk from 'chalk';
+import { input, select } from '@inquirer/prompts';
+import { add, subtract, multiply, divide } from './calculator.js';
 
 const allowedOperations = {
     'összeadás': {
