@@ -5,13 +5,15 @@ info:
     Node.js képzés harmadik házi feladat.
   version: 0.0.1
 externalDocs:
-  description: Online itt tölthető és jeleníthető meg.
+  description: Online ide illeszthető be és jeleníthető meg.
   url: https://editor.swagger.io/
 tags:
   - name: monkey
     description: Majommal kapcsolatos végpont
   - name: banana
     description: Banánnal kapcsolatos végpont
+  - name: pairing
+    description: Majom-banán párosítással kapcsolatos végpont
 paths:
   /monkey:
     get:
@@ -36,29 +38,33 @@ paths:
       description: Egy új majom hozzáadása
       operationId: addMonkey
       requestBody:
-        description: Az új létrehozandó majom. Nem tartalmazhat azonosítót.
+        description: |-
+          Az új létrehozandó majom. 
+          Nem tartalmazhat azonosítót.
+          Nem lehet banánt egyből a majomhoz kötni.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Monkey'
         required: true
       responses:
-        '200':
+        '201':
           description: Sikeres hozzáadás
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Monkey'
         '400':
-          description: Érvénytelen adatok a majomnak, vagy tartalmaz azonosítót
-        '404':
-          description: A majomhoz kötendő banán nem található
+          description: |-
+            Érvénytelen adatok a majomnak, 
+            vagy tartalmaz azonosítót,
+            vagy egyből banán hozzáadási kísérlet történt
   /monkey/{monkeyId}:
     get:
       tags:
         - monkey
       summary: Egy majom lekérdezése
-      description: Egy majom lekérdezése
+      description: Egy majom lekérdezése (a hozzátartozó banánokkal együtt)
       operationId: getOneMonkey
       parameters:
         - name: monkeyId
@@ -74,7 +80,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Monkey'
+                $ref: '#/components/schemas/MonkeyWithBanana'
         '400':
           description: Nem szám alapú azonosító
         '404':
@@ -85,8 +91,7 @@ paths:
       summary: Egy majom frissítése
       description: |-
         Egy majom frissítése ID mentén.
-        Alkalmas arra továbbá, hogy elvegyen egy banánt egy majomtól,
-        vagy egy szabad banánt egy majomhoz kössön.
+        Nem lehet banán majomhoz kötésére használni.
       operationId: updateMonkey
       parameters:
         - name: monkeyId
@@ -111,16 +116,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Monkey'
         '400':
-          description: Érvénytelen adatok a majomnak, vagy nem szám alapú azonosító
+          description: |-
+            Érvénytelen adatok a majomnak,
+            vagy nem szám alapú azonosító,
+            vagy banán hozzáadási kísérlet történt
         '404':
-          description: A majom vagy a banán nem található
-        '409':
-          description: Egy banán egy másik majom tulajdona jelenleg.
+          description: A majom nem található
     delete:
       tags:
         - monkey
       summary: Egy majom törlése
-      description: Egy majom törlése.
+      description: |-
+        Egy majom törlése. 
+        A hozzátartozó banánok felszabadításra kerülnek.
       operationId: deleteMonkey
       parameters:
         - name: monkeyId
@@ -160,27 +168,33 @@ paths:
       description: Egy új banán hozzáadása
       operationId: addBanana
       requestBody:
-        description: Az új létrehozandó banán. Nem tartalmazhat azonosítót.
+        description: |-
+          Az új létrehozandó banán.
+          Nem tartalmazhat azonosítót.
+          Nem lehet egyből majomhoz kötni a banánt vele.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Banana'
         required: true
       responses:
-        '200':
+        '201':
           description: Sikeres hozzáadás
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Banana'
         '400':
-          description: Érvénytelen adatok a banánnak, vagy tartalmaz azonosítót
+          description: |-
+            Érvénytelen adatok a banánnak,
+            vagy tartalmaz azonosítót,
+            vagy majomhoz kötési kísérlet történt
   /banana/{bananaId}:
     get:
       tags:
         - banana
       summary: Egy banán lekérdezése
-      description: Egy banán lekérdezése
+      description: Egy banán lekérdezése a tulajdonos majommal együtt
       operationId: getOneBanana
       parameters:
         - name: bananaId
@@ -196,7 +210,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Banana'
+                $ref: '#/components/schemas/BananaWithMonkey'
         '400':
           description: Nem szám alapú azonosító
         '404':
@@ -207,8 +221,7 @@ paths:
       summary: Egy banán frissítése
       description: |-
         Egy banán frissítése ID mentén.
-        Alkalmas arra továbbá, hogy a banánt felszabadítsa,
-        vagy hozzákösse egy másik majomhoz.
+        Nem használható banán majomhoz kötésére.
       operationId: updateBanana
       parameters:
         - name: bananaId
@@ -233,9 +246,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Banana'
         '400':
-          description: Érvénytelen adatok a banánnak, vagy nem szám alapú azonosító
+          description: |-
+            Érvénytelen adatok a banánnak,
+            vagy nem szám alapú azonosító,
+            vagy majomhoz kötési kísérlet történt
         '404':
-          description: A banán vagy a majom nem található
+          description: A banán nem található
     delete:
       tags:
         - banana
@@ -257,11 +273,125 @@ paths:
           description: Nem szám alapú azonosító
         '404':
           description: A banán nem található (nincs mit törölni)
+  /pair/{bananaId}:
+    delete:
+      tags:
+        - pairing
+      summary: Egy banán felszabadítása
+      description: |-
+        Egy banán felszabadítása,
+        azaz nem lesz egy majom tulajdonában sem ezután.
+      operationId: freeBanana
+      parameters:
+        - name: bananaId
+          in: path
+          description: Banán azonosítója
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Sikeres felszabadítás (vagy már szabad volt)
+        '400':
+          description: Nem szám alapú azonosító
+        '404':
+          description: A banán nem található
+  /pair/{bananaId}/{monkeyId}:
+    put:
+      tags:
+        - pairing
+      summary: Banán majomhoz való kötése
+      description: |-
+        Egy banán ezzel köthető egy majomhoz.
+        Nem kötelező előtte felszabadítani a banánt.
+      operationId: bindBanana
+      parameters:
+        - name: bananaId
+          in: path
+          description: Banán azonosítója
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: monkeyId
+          in: path
+          description: Majom azonosítója
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Sikeres hozzákötés
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BananaWithMonkey'
+        '400':
+          description: |-
+            Nem szám alapú azonosító használata
+            akár a majomnál, akár a banánnál
+        '404':
+          description: A banán vagy a majom nem található
 components:
   schemas:
     Monkey:
       type: object
+      description: Majom leírása
       required:
+        - name
+        - gender
+        - species
+      properties:
+        id:
+          type: integer
+          description: Majom azonosítója
+          format: int64
+        name:
+          type: string
+          description: Majom neve
+        gender:
+          type: string
+          description: Majom neme
+        species:
+          type: string
+          description: Majom faja
+        bananas:
+          type: array
+          description: A majom banánjainak azonosítói
+          items:
+            type: integer
+            format: int64
+    Banana:
+      type: object
+      description: Banán leírása
+      required:
+        - color
+        - sweet
+      properties:
+        id:
+          type: integer
+          description: Banán azonosítója
+          format: int64
+        color:
+          type: string
+          description: Banán színe
+          enum:
+            - yellow
+            - green
+        sweet:
+          type: boolean
+          description: A banán édes-e vagy sem
+        ownedByMonkey:
+          type: integer
+          description: A tulajdonos majom azonosítója
+          format: int64
+    MonkeyWithBanana:
+      type: object
+      description: Majom és a hozzá tartozó banánok
+      required:
+        - id
         - name
         - gender
         - species
@@ -283,8 +413,13 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Banana"
-    Banana:
+    BananaWithMonkey:
       type: object
+      description: Banán és az őt tulajdonló majom
+      required:
+        - id
+        - color
+        - sweet
       properties:
         id:
           type: integer
