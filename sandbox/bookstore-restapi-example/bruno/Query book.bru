@@ -1,0 +1,15 @@
+meta {
+  name: Query book
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/book/1?auth=testing
+  body: none
+  auth: none
+}
+
+query {
+  auth: testing
+}

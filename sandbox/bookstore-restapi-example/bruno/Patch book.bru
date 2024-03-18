@@ -1,0 +1,21 @@
+meta {
+  name: Patch book
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://localhost:8080/book/1?auth=testing
+  body: json
+  auth: none
+}
+
+query {
+  auth: testing
+}
+
+body:json {
+  {
+    "author": "Bruno"
+  }
+}

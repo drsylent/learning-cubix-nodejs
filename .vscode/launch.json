@@ -5,6 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "name": "Book Store REST API Example",
+            "program": "${workspaceFolder}/sandbox/bookstore-restapi-example/index.js",
+            "request": "launch",
+            "restart": true,
+            "runtimeExecutable": "${workspaceFolder}/sandbox/bookstore-restapi-example/node_modules/.bin/nodemon",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Week 2 homework",

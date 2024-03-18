@@ -1,0 +1,22 @@
+meta {
+  name: Create book
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/book?auth=testing
+  body: json
+  auth: none
+}
+
+query {
+  auth: testing
+}
+
+body:json {
+  {
+    "title": "example",
+    "author": "Bruno"
+  }
+}

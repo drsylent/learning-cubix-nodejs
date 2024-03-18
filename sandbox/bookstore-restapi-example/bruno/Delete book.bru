@@ -1,0 +1,15 @@
+meta {
+  name: Delete book
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:8080/book/1?auth=testing
+  body: none
+  auth: none
+}
+
+query {
+  auth: testing
+}
