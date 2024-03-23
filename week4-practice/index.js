@@ -13,4 +13,4 @@ function startup(databaseLocation) {
     });
 }
 
-startup("week4-practice/library.db");
+startup("library.db");
