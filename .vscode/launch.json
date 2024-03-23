@@ -26,6 +26,19 @@
             ],
             "program": "${workspaceFolder}\\week2-practice\\index.js",
             "console": "integratedTerminal"
+        },
+        {
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "name": "Week 4 Homework",
+            "program": "${workspaceFolder}/week4-practice/index.js",
+            "request": "launch",
+            "restart": true,
+            "runtimeExecutable": "${workspaceFolder}/week4-practice/node_modules/.bin/nodemon",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
         }
     ]
 }

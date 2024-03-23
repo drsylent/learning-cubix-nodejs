@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "NodeJS HW4 Todo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Query all TODO",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/api/todos"
+      }
+    },
+    {
+      "name": "Add new TODO",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:8080/api/todos",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"todo\": \"addedExample\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Delete one TODO",
+      "event": [],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "http://localhost:8080/api/todos/f6676764-de44-4fd7-be2e-48ea414207a0"
+      }
+    }
+  ],
+  "variable": []
+}
