@@ -13,4 +13,4 @@ function startup(databaseLocation) {
     });
 }
 
-startup("library.db");
+startup("todos.db");
