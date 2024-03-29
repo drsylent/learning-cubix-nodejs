@@ -40,6 +40,17 @@
                 "<node_internals>/**"
             ],
             "type": "node"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Week 5 homework",
+            "cwd": "${workspaceFolder}/week5-practice",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\week5-practice\\index.js",
+            "console": "integratedTerminal"
         }
     ]
 }
