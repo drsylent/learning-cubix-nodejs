@@ -2,6 +2,8 @@ import express from "express";
 
 const app = express();
 
+app.use('/assets', express.static('assets'));
+
 app.get('/', (req, res, next) => res.render('index.ejs', res.locals));
 app.get('/login', (req, res, next) => res.render('login.ejs', res.locals));
 app.get('/register', (req, res, next) => res.render('register.ejs', res.locals));
