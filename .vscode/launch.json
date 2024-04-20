@@ -51,6 +51,20 @@
             ],
             "program": "${workspaceFolder}\\week5-practice\\index.js",
             "console": "integratedTerminal"
+        },
+        {
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "name": "Exam",
+            "cwd": "${workspaceFolder}/exam",
+            "program": "${workspaceFolder}/exam/index.js",
+            "request": "launch",
+            "restart": true,
+            "runtimeExecutable": "${workspaceFolder}/exam/node_modules/.bin/nodemon",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
         }
     ]
 }
