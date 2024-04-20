@@ -11,6 +11,7 @@ app.get('/password/forgot', (req, res, next) => res.render('forgotten-password.e
 app.get('/account/email/modify', (req, res, next) => res.render('modify-email.ejs', res.locals));
 app.get('/account/password/modify', (req, res, next) => res.render('modify-password.ejs', res.locals));
 app.get('/tweet', (req, res, next) => res.render('tweet.ejs', res.locals));
+app.get('/error', (req, res, next) => res.render('error.ejs', res.locals));
 
 app.listen(8080, function () {
     console.log('Running on :8080');
