@@ -1,0 +1,23 @@
+<%- include('header') %>
+
+    <div class="d-flex align-items-center tjs-box-center">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-sm-3 col-xs-1"></div>
+                <div class="col-lg-4 col-sm-6 col-xs-10">
+                    <form class="container" method="POST" action="/tweet" id="tweet-form">
+                        <div class="row tjs-row">
+                            <textarea class="form-control" rows="4" id="tweet" form="tweet-form">Micsoda tweet lesz itt!</textarea>
+                        </div>
+                        <div class="row tjs-row">
+                            <div class="col-8"></div>
+                            <button class="row col btn btn-primary" type="submit">Publikálás</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 col-sm-3 col-xs-1"></div>
+            </div>
+        </div>
+    </div>
+
+<%- include('footer') %>
