@@ -7,6 +7,8 @@ import { mustNotBeSignedIn as mustNotBeSignedInError } from "../middleware/error
 import { findUser } from '../middleware/logic/findUser.js';
 import { register } from "../middleware/logic/register.js";
 import { register as registerError } from "../middleware/error/register.js";
+import { login } from '../middleware/logic/login.js';
+import { login as loginError } from '../middleware/error/login.js';
 import { emailSend } from "../middleware/logic/emailSend.js";
 import { emailSecret } from "../middleware/logic/emailSecret.js";
 import { emailSecret as emailSecretError } from '../middleware/error/emailSecret.js';
@@ -38,6 +40,7 @@ function initMiddlewares({ db, model }) {
                 (req) => ({ userName: req.session.userName }), 
                 (res, user) => { res.locals.user = user; })
         },
+        login,
         register: register(model),
         emailSend,
         emailSecret: emailSecret(model, uuid),
@@ -57,12 +60,14 @@ function initMiddlewares({ db, model }) {
         error: renderMw('error.ejs')
     };
     const redirect = {
+        main: redirectMw('/'),
         login: redirectMw('/login'),
-        main: redirectMw('/')
+        followedTweets: redirectMw('/account/followed/tweets')
     };
     const error = {
         authorize: authorizeError,
         mustNotBeSignedIn: mustNotBeSignedInError,
+        login: loginError,
         register: registerError,
         emailSecret: emailSecretError,
         fallback

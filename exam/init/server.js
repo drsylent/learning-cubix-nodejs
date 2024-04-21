@@ -4,7 +4,8 @@ function initRoutes(app, middlewares) {
     app.use(middlewares.logic.session);
     app.get('/', middlewares.logic.mustNotBeSignedIn, middlewares.render.main);
     app.get('/login', middlewares.logic.mustNotBeSignedIn, middlewares.render.login);
-    app.post('/login', middlewares.logic.mustNotBeSignedIn);
+    app.post('/login', middlewares.logic.mustNotBeSignedIn, middlewares.logic.findUser.userName, 
+            middlewares.logic.login, middlewares.redirect.followedTweets);
     // app.post('/logout');
     app.get('/register', middlewares.logic.mustNotBeSignedIn, middlewares.render.register);
     app.post('/register', middlewares.logic.mustNotBeSignedIn, 
@@ -36,6 +37,7 @@ function initRoutes(app, middlewares) {
 function initErrorHandlers(app, errorMiddlewares) {
     app.use(errorMiddlewares.authorize);
     app.use(errorMiddlewares.mustNotBeSignedIn);
+    app.use(errorMiddlewares.login);
     app.use(errorMiddlewares.register);
     app.use(errorMiddlewares.emailSecret);
     app.use(errorMiddlewares.fallback);
