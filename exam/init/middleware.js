@@ -10,9 +10,11 @@ import { register as registerError } from "../middleware/error/register.js";
 import { emailSend } from "../middleware/logic/emailSend.js";
 import { emailSecret } from "../middleware/logic/emailSecret.js";
 import { emailSecret as emailSecretError } from '../middleware/error/emailSecret.js';
+import { modifyEmail } from '../middleware/logic/modifyEmail.js';
 import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
+import { fallback } from '../middleware/error/fallback.js';
 
 function initMiddlewares({ db, model }) {
     const logic = {
@@ -39,6 +41,7 @@ function initMiddlewares({ db, model }) {
         register: register(model),
         emailSend,
         emailSecret: emailSecret(model, uuid),
+        modifyEmail: modifyEmail(model),
         persist: persist(db)
     };
     const render = {
@@ -54,13 +57,15 @@ function initMiddlewares({ db, model }) {
         error: renderMw('error.ejs')
     };
     const redirect = {
-        login: redirectMw('/login')
+        login: redirectMw('/login'),
+        main: redirectMw('/')
     };
     const error = {
         authorize: authorizeError,
         mustNotBeSignedIn: mustNotBeSignedInError,
         register: registerError,
-        emailSecret: emailSecretError
+        emailSecret: emailSecretError,
+        fallback
     };
     return { logic, render, redirect, error };
 }

@@ -26,7 +26,8 @@ function initRoutes(app, middlewares) {
     app.post('/tweet/:tweetId/delete', middlewares.logic.authorize);
     app.get('/account/email/modify', middlewares.logic.authorize, middlewares.render.modifyEmail);
     app.post('/account/email/modify', middlewares.logic.authorize);
-    app.get('/email/modify/:secret', middlewares.logic.authorize);
+    app.get('/email/modify/:secret', middlewares.logic.findUser.emailSecret, middlewares.logic.modifyEmail,
+            middlewares.logic.persist, middlewares.redirect.main);
     app.get('/account/password/modify', middlewares.logic.authorize, middlewares.render.modifyPassword);
     // app.post('/account/password/modify');
     app.get('/error', middlewares.render.error);
@@ -37,6 +38,7 @@ function initErrorHandlers(app, errorMiddlewares) {
     app.use(errorMiddlewares.mustNotBeSignedIn);
     app.use(errorMiddlewares.register);
     app.use(errorMiddlewares.emailSecret);
+    app.use(errorMiddlewares.fallback);
 }
 
 function initServer(middlewares) {
