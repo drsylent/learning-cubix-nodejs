@@ -1,11 +1,14 @@
 import { render as renderMw } from "../middleware/view/render.js";
 import { session } from "../middleware/logic/session.js";
+import { authorize } from "../middleware/logic/authorize.js";
+import { authorize as authorizeError } from "../middleware/error/authorize.js";
 import { mustNotBeSignedIn } from "../middleware/logic/mustNotBeSignedIn.js";
 import { mustNotBeSignedIn as mustNotBeSignedInError } from "../middleware/error/mustNotBeSignedIn.js";
 
 function initMiddlewares({ db, model }) {
     const logic = {
         session,
+        authorize,
         mustNotBeSignedIn
     };
     const render = {
@@ -21,6 +24,7 @@ function initMiddlewares({ db, model }) {
         error: renderMw('error.ejs')
     };
     const error = {
+        authorize: authorizeError,
         mustNotBeSignedIn: mustNotBeSignedInError
     }
     return { render, logic, error };

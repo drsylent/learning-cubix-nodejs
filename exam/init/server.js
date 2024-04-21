@@ -14,22 +14,23 @@ function initRoutes(app, middlewares) {
     // app.post('/password/modify/:secret');
     app.get('/users', middlewares.render.listUsers);
     app.get('/:userName/tweets', middlewares.render.listTweets);
-    app.get('/account/followed/tweets', middlewares.render.listTweets);
-    app.get('/account/followed/users', middlewares.render.listUsers);
-    // app.post('/account/follow/:userName');
-    // app.post('/account/unfollow/:userName');
-    app.get('/tweet', middlewares.render.tweet);
-    // app.post('/tweet');
-    // app.post('/tweet/:tweetId/delete');
-    app.get('/account/email/modify', middlewares.render.modifyEmail);
-    // app.post('/account/email/modify');
-    // app.get('/email/modify/:secret');
-    app.get('/account/password/modify', middlewares.render.modifyPassword);
+    app.get('/account/followed/tweets', middlewares.logic.authorize, middlewares.render.listTweets);
+    app.get('/account/followed/users', middlewares.logic.authorize, middlewares.render.listUsers);
+    app.post('/account/follow/:userName', middlewares.logic.authorize);
+    app.post('/account/unfollow/:userName', middlewares.logic.authorize);
+    app.get('/tweet', middlewares.logic.authorize, middlewares.render.tweet);
+    app.post('/tweet', middlewares.logic.authorize);
+    app.post('/tweet/:tweetId/delete', middlewares.logic.authorize);
+    app.get('/account/email/modify', middlewares.logic.authorize, middlewares.render.modifyEmail);
+    app.post('/account/email/modify', middlewares.logic.authorize);
+    app.get('/email/modify/:secret', middlewares.logic.authorize);
+    app.get('/account/password/modify', middlewares.logic.authorize, middlewares.render.modifyPassword);
     // app.post('/account/password/modify');
     app.get('/error', middlewares.render.error);
 }
 
 function initErrorHandlers(app, errorMiddlewares) {
+    app.use(errorMiddlewares.authorize);
     app.use(errorMiddlewares.mustNotBeSignedIn);
 }
 
