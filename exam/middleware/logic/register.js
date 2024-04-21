@@ -12,12 +12,16 @@ function validate({userName, email, password, password2}) {
     }
 }
 
+function duplicationValidation(res) {
+    if (res.locals.userByEmail || res.locals.userByUserName) {
+        throw new Error(duplicationErrorMessage);
+    }
+}
+
 function register(model) {
     return (req, res, next) => {
         validate(req.body);
-        if (res.locals.user) {
-            throw new Error(duplicationErrorMessage);
-        }
+        duplicationValidation(res);
         const newUser = {
             userName: req.body.userName,
             password: req.body.password,

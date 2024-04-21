@@ -1,8 +1,8 @@
-function findUser(model) {
+function findUser(model, findGetter, valueSetter) {
     return (req, res, next) => {
-        const found = model.findOne({ emailTemporary: req.body.email });
+        const found = model.findOne(findGetter(req));
         if (found) {
-            res.locals.user = found;
+            valueSetter(res, found);
         }
         return next();
     }

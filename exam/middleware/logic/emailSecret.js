@@ -1,7 +1,11 @@
 import { prepareEmail } from "./emailSend.js";
+import { errorMessage } from "../error/emailSecret.js";
 
 function emailSecret(model, uuid) {
     return (req, res, next) => {
+        if (res.locals.userByEmail) {
+            throw new Error(errorMessage);
+        }
         const secret = uuid();
         res.locals.user.emailSecret = secret;
         res.locals.user.emailTemporary = req.body.email;
