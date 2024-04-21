@@ -1,0 +1,47 @@
+<%- include('header') %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <h4>Felhasználó2 tweetjei</p>
+            <form class="text-end" method="POST" action="/account/follow/{username}">
+                <button class="btn btn-primary" type="submit">Követem</button>
+            </form>
+        <div class="col-lg-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Felhasználó2</h5>
+                    <p class="card-text text-center">Itt egy tweet szövege</p>
+                    <a class="card-link" href="/tweet">Szerkesztés</a>
+                    <form class="card-link text-end" method="POST" action="/tweet/{tweetId}/delete">
+                        <button class="btn btn-danger" type="submit">Törlés</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Felhasználó2</h5>
+                    <p class="card-text text-center">Itt egy másik tweet szövege</p>
+                    <a class="card-link" href="/tweet">Szerkesztés</a>
+                    <form class="card-link text-end" method="POST" action="/tweet/{tweetId}/delete">
+                        <button class="btn btn-danger" type="submit">Törlés</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+</div>
+
+<%- include('footer') %>
