@@ -9,6 +9,7 @@ import { register } from "../middleware/logic/register.js";
 import { register as registerError } from "../middleware/error/register.js";
 import { login } from '../middleware/logic/login.js';
 import { login as loginError } from '../middleware/error/login.js';
+import { logout } from '../middleware/logic/logout.js';
 import { emailSend } from "../middleware/logic/emailSend.js";
 import { emailSecret } from "../middleware/logic/emailSecret.js";
 import { emailSecret as emailSecretError } from '../middleware/error/emailSecret.js';
@@ -41,6 +42,7 @@ function initMiddlewares({ db, model }) {
                 (res, user) => { res.locals.user = user; })
         },
         login,
+        logout,
         register: register(model),
         emailSend,
         emailSecret: emailSecret(model, uuid),

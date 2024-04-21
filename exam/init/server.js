@@ -6,7 +6,7 @@ function initRoutes(app, middlewares) {
     app.get('/login', middlewares.logic.mustNotBeSignedIn, middlewares.render.login);
     app.post('/login', middlewares.logic.mustNotBeSignedIn, middlewares.logic.findUser.userName, 
             middlewares.logic.login, middlewares.redirect.followedTweets);
-    // app.post('/logout');
+    app.post('/logout', middlewares.logic.logout, middlewares.redirect.main);
     app.get('/register', middlewares.logic.mustNotBeSignedIn, middlewares.render.register);
     app.post('/register', middlewares.logic.mustNotBeSignedIn, 
             middlewares.logic.findUser.userName, middlewares.logic.findUser.email,
