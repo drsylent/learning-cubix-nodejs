@@ -10,5 +10,5 @@ const mockedEmptySession = (req, res, next) => {
     return next();
 };
 
-export { mockedUserNameSetSession as session };
-// export { mockedEmptySession as session };
+// export { mockedUserNameSetSession as session };
+export { mockedEmptySession as session };

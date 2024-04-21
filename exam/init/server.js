@@ -7,7 +7,9 @@ function initRoutes(app, middlewares) {
     app.post('/login', middlewares.logic.mustNotBeSignedIn);
     // app.post('/logout');
     app.get('/register', middlewares.logic.mustNotBeSignedIn, middlewares.render.register);
-    app.post('/register', middlewares.logic.mustNotBeSignedIn);
+    app.post('/register', middlewares.logic.mustNotBeSignedIn, middlewares.logic.findUser,
+            middlewares.logic.register, middlewares.logic.emailSecret, middlewares.logic.emailSend, 
+            middlewares.logic.persist, middlewares.redirect.login);
     app.get('/password/forgot', middlewares.logic.mustNotBeSignedIn, middlewares.render.forgottenPassword);
     app.post('/password/forgot', middlewares.logic.mustNotBeSignedIn);
     app.get('/password/modify/:secret', middlewares.render.forgottenPassword);
@@ -32,6 +34,7 @@ function initRoutes(app, middlewares) {
 function initErrorHandlers(app, errorMiddlewares) {
     app.use(errorMiddlewares.authorize);
     app.use(errorMiddlewares.mustNotBeSignedIn);
+    app.use(errorMiddlewares.register);
 }
 
 function initServer(middlewares) {
