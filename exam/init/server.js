@@ -1,14 +1,15 @@
 import express from "express";
 
 function initRoutes(app, middlewares) {
-    app.get('/', middlewares.render.main);
-    app.get('/login', middlewares.render.login);
-    // app.post('/login');
+    app.use(middlewares.logic.session);
+    app.get('/', middlewares.logic.mustNotBeSignedIn, middlewares.render.main);
+    app.get('/login', middlewares.logic.mustNotBeSignedIn, middlewares.render.login);
+    app.post('/login', middlewares.logic.mustNotBeSignedIn);
     // app.post('/logout');
-    app.get('/register', middlewares.render.register);
-    // app.post('/register');
-    app.get('/password/forgot', middlewares.render.forgottenPassword);
-    // app.post('/password/forgot');
+    app.get('/register', middlewares.logic.mustNotBeSignedIn, middlewares.render.register);
+    app.post('/register', middlewares.logic.mustNotBeSignedIn);
+    app.get('/password/forgot', middlewares.logic.mustNotBeSignedIn, middlewares.render.forgottenPassword);
+    app.post('/password/forgot', middlewares.logic.mustNotBeSignedIn);
     app.get('/password/modify/:secret', middlewares.render.forgottenPassword);
     // app.post('/password/modify/:secret');
     app.get('/users', middlewares.render.listUsers);
@@ -28,6 +29,10 @@ function initRoutes(app, middlewares) {
     app.get('/error', middlewares.render.error);
 }
 
+function initErrorHandlers(app, errorMiddlewares) {
+    app.use(errorMiddlewares.mustNotBeSignedIn);
+}
+
 function initServer(middlewares) {
     const app = express();
 
@@ -38,6 +43,7 @@ function initServer(middlewares) {
     app.use('/assets', express.static('assets'));
 
     initRoutes(app, middlewares);
+    initErrorHandlers(app, middlewares.error);
 
     app.listen(8080, function () {
         console.log('Running on :8080');
