@@ -1,8 +1,9 @@
+import { getWarning, clearWarning } from "../../utility/warning.js";
+
 function render(page) {
     return (req, res, next) => {
-        if (!res.locals.warning) {
-            res.locals.warning = req.query.warning;
-        }
+        res.locals.warning = getWarning(req.session);
+        clearWarning(req.session);
         if (req.session.userName) {
             res.locals.disabled = "";
         }

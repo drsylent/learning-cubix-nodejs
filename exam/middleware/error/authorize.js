@@ -1,10 +1,11 @@
-import querystring from 'querystring';
+import { setWarning } from '../../utility/warning.js';
 
 const errorMessage = 'authorize';
 
 const authorize = (err, req, res, next) => {
     if (err.message === errorMessage) {
-        return res.redirect('/login?' + querystring.encode({ warning: 'Ehhez az oldalhoz előbb be kell jelentkezz' })); 
+        setWarning(req.session, 'Ehhez az oldalhoz előbb be kell jelentkezz');
+        return res.redirect('/login'); 
     }
     return next(err);
 }

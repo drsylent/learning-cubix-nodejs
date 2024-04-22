@@ -1,10 +1,11 @@
-import querystring from 'querystring';
+import { setWarning } from '../../utility/warning.js';
 
 const errorMessage = 'login';
 
 const login = (err, req, res, next) => {
     if (err.message === errorMessage) {
-        return res.redirect('/login?' + querystring.encode({ warning: 'Ellenőrizd a bejelentkezési adataid' })); 
+        setWarning(req.session, 'Ellenőrizd a bejelentkezési adataid');
+        return res.redirect('/login'); 
     }
     return next(err);
 }

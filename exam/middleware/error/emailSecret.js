@@ -1,10 +1,11 @@
-import querystring from 'querystring';
+import { setWarning } from '../../utility/warning.js';
 
 const errorMessage = 'emailSecret';
 
 const emailSecret = (err, req, res, next) => {
     if (err.message === errorMessage) {
-        return res.redirect('/account/email/modify?' + querystring.encode({ warning: 'Ez az email cím már használatban van' })); 
+        setWarning(req.session, 'Ez az email cím már használatban van');
+        return res.redirect('/account/email/modify'); 
     }
     return next(err);
 }

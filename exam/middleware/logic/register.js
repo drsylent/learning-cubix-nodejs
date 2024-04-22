@@ -1,4 +1,5 @@
 import { isNonEmptyString } from "../../utility/validation.js";
+import { setWarning } from "../../utility/warning.js";
 import { basicErrorMessage } from "../error/register.js";
 import { duplicationErrorMessage } from "../error/register.js";
 
@@ -30,7 +31,7 @@ function register(model) {
         };
         model.insert(newUser);
         console.log('New user created: ', newUser);
-        res.locals.warning = 'Első bejelentkezésed előtt meg kell erősítsd az email címed';
+        setWarning(req.session, 'Első bejelentkezésed előtt meg kell erősítsd az email címed');
         res.locals.user = newUser;
         return next();
     };
