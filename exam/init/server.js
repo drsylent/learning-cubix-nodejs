@@ -1,37 +1,37 @@
 import express from "express";
 
-function initRoutes(app, middlewares) {
-    app.use(middlewares.logic.session);
-    app.get('/', middlewares.logic.mustNotBeSignedIn, middlewares.render.main);
-    app.get('/login', middlewares.logic.mustNotBeSignedIn, middlewares.render.login);
-    app.post('/login', middlewares.logic.mustNotBeSignedIn, middlewares.logic.findUser.userName, 
-            middlewares.logic.login, middlewares.redirect.followedTweets);
-    app.post('/logout', middlewares.logic.logout, middlewares.redirect.main);
-    app.get('/register', middlewares.logic.mustNotBeSignedIn, middlewares.render.register);
-    app.post('/register', middlewares.logic.mustNotBeSignedIn, 
-            middlewares.logic.findUser.userName, middlewares.logic.findUser.email,
-            middlewares.logic.register, middlewares.logic.emailSecret, middlewares.logic.emailSend, 
-            middlewares.logic.persist, middlewares.redirect.login);
-    app.get('/password/forgot', middlewares.logic.mustNotBeSignedIn, middlewares.render.forgottenPassword);
-    app.post('/password/forgot', middlewares.logic.mustNotBeSignedIn);
-    app.get('/password/modify/:secret', middlewares.render.forgottenPassword);
+function initRoutes(app, { logic, render, redirect }) {
+    app.use(logic.session);
+    app.get('/', logic.mustNotBeSignedIn, render.main);
+    app.get('/login', logic.mustNotBeSignedIn, render.login);
+    app.post('/login', logic.mustNotBeSignedIn, logic.findUser.userName, 
+            logic.login, redirect.followedTweets);
+    app.post('/logout', logic.logout, redirect.main);
+    app.get('/register', logic.mustNotBeSignedIn, render.register);
+    app.post('/register', logic.mustNotBeSignedIn, 
+            logic.findUser.userName, logic.findUser.email,
+            logic.register, logic.emailSecret, logic.emailSend, 
+            logic.persist, redirect.login);
+    app.get('/password/forgot', logic.mustNotBeSignedIn, render.forgottenPassword);
+    app.post('/password/forgot', logic.mustNotBeSignedIn);
+    app.get('/password/modify/:secret', render.forgottenPassword);
     // app.post('/password/modify/:secret');
-    app.get('/users', middlewares.render.listUsers);
-    app.get('/:userName/tweets', middlewares.render.listTweets);
-    app.get('/account/followed/tweets', middlewares.logic.authorize, middlewares.render.listTweets);
-    app.get('/account/followed/users', middlewares.logic.authorize, middlewares.render.listUsers);
-    app.post('/account/follow/:userName', middlewares.logic.authorize);
-    app.post('/account/unfollow/:userName', middlewares.logic.authorize);
-    app.get('/tweet', middlewares.logic.authorize, middlewares.render.tweet);
-    app.post('/tweet', middlewares.logic.authorize);
-    app.post('/tweet/:tweetId/delete', middlewares.logic.authorize);
-    app.get('/account/email/modify', middlewares.logic.authorize, middlewares.render.modifyEmail);
-    app.post('/account/email/modify', middlewares.logic.authorize);
-    app.get('/email/modify/:secret', middlewares.logic.findUser.emailSecret, middlewares.logic.modifyEmail,
-            middlewares.logic.persist, middlewares.redirect.main);
-    app.get('/account/password/modify', middlewares.logic.authorize, middlewares.render.modifyPassword);
+    app.get('/users', render.listUsers);
+    app.get('/:userName/tweets', render.listTweets);
+    app.get('/account/followed/tweets', logic.authorize, render.listTweets);
+    app.get('/account/followed/users', logic.authorize, render.listUsers);
+    app.post('/account/follow/:userName', logic.authorize);
+    app.post('/account/unfollow/:userName', logic.authorize);
+    app.get('/tweet', logic.authorize, render.tweet);
+    app.post('/tweet', logic.authorize);
+    app.post('/tweet/:tweetId/delete', logic.authorize);
+    app.get('/account/email/modify', logic.authorize, render.modifyEmail);
+    app.post('/account/email/modify', logic.authorize);
+    app.get('/email/modify/:secret', logic.findUser.emailSecret, logic.modifyEmail,
+            logic.persist, redirect.main);
+    app.get('/account/password/modify', logic.authorize, render.modifyPassword);
     // app.post('/account/password/modify');
-    app.get('/error', middlewares.render.error);
+    app.get('/error', render.error);
 }
 
 function initErrorHandlers(app, errorMiddlewares) {
