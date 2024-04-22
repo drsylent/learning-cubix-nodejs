@@ -35,6 +35,8 @@ function initRoutes(app, { logic, render, redirect }) {
     app.post('/account/password/modify', logic.authorize, logic.findUser.signedIn, 
             logic.modifyPassword, logic.persist, redirect.modifyPassword);
     app.get('/error', render.error);
+    // fallback to main page if non-existent page is queried
+    app.get('*', redirect.main);
 }
 
 function initErrorHandlers(app, errorMiddlewares) {
