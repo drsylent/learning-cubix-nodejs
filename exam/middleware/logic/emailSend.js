@@ -11,6 +11,9 @@ const emailSend = (req, res, next) => {
             console.log(`Sending email to ${email.address} with content ${email.content}`);
         });
     }
+    else {
+        console.error("It seems that an email should be sent per route - but none is prepared!");
+    }
     return next();
 };
 

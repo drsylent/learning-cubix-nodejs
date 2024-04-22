@@ -14,6 +14,8 @@ import { emailSend } from "../middleware/logic/emailSend.js";
 import { emailSecret } from "../middleware/logic/emailSecret.js";
 import { emailSecret as emailSecretError } from '../middleware/error/emailSecret.js';
 import { modifyEmail } from '../middleware/logic/modifyEmail.js';
+import { forgottenPasswordSecret } from '../middleware/logic/forgottenPasswordSecret.js';
+import { forgottenPasswordSecret as forgottenPasswordSecretError } from '../middleware/error/forgottenPasswordSecret.js';
 import { modifyPassword } from '../middleware/logic/modifyPassword.js';
 import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
@@ -48,6 +50,7 @@ function initMiddlewares({ db, model }) {
         emailSend,
         emailSecret: emailSecret(model, uuid),
         modifyEmail: modifyEmail(model),
+        forgottenPasswordSecret: forgottenPasswordSecret(uuid),
         modifyPassword,
         persist: persist(db)
     };
@@ -76,6 +79,7 @@ function initMiddlewares({ db, model }) {
         login: loginError,
         register: registerError,
         emailSecret: emailSecretError,
+        forgottenPasswordSecret: forgottenPasswordSecretError,
         fallback
     };
     return { logic, render, redirect, error };

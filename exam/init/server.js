@@ -13,7 +13,8 @@ function initRoutes(app, { logic, render, redirect }) {
             logic.register, logic.emailSecret, logic.emailSend, 
             logic.persist, redirect.login);
     app.get('/password/forgot', logic.mustNotBeSignedIn, render.forgottenPassword);
-    app.post('/password/forgot', logic.mustNotBeSignedIn);
+    app.post('/password/forgot', logic.mustNotBeSignedIn, logic.findUser.email, 
+            logic.forgottenPasswordSecret, logic.emailSend, logic.persist, redirect.login);
     app.get('/password/modify/:secret', render.forgottenPassword);
     // app.post('/password/modify/:secret');
     app.get('/users', render.listUsers);
@@ -42,6 +43,7 @@ function initErrorHandlers(app, errorMiddlewares) {
     app.use(errorMiddlewares.login);
     app.use(errorMiddlewares.register);
     app.use(errorMiddlewares.emailSecret);
+    app.use(errorMiddlewares.forgottenPasswordSecret);
     app.use(errorMiddlewares.fallback);
 }
 
