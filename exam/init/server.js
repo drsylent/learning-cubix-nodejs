@@ -31,7 +31,8 @@ function initRoutes(app, { logic, render, redirect }) {
     app.get('/email/modify/:secret', logic.findUser.emailSecret, logic.modifyEmail,
             logic.persist, redirect.main);
     app.get('/account/password/modify', logic.authorize, render.modifyPassword);
-    // app.post('/account/password/modify');
+    app.post('/account/password/modify', logic.authorize, logic.findUser.signedIn, 
+            logic.modifyPassword, logic.persist, redirect.modifyPassword);
     app.get('/error', render.error);
 }
 

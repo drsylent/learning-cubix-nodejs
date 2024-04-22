@@ -14,6 +14,7 @@ import { emailSend } from "../middleware/logic/emailSend.js";
 import { emailSecret } from "../middleware/logic/emailSecret.js";
 import { emailSecret as emailSecretError } from '../middleware/error/emailSecret.js';
 import { modifyEmail } from '../middleware/logic/modifyEmail.js';
+import { modifyPassword } from '../middleware/logic/modifyPassword.js';
 import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
@@ -47,6 +48,7 @@ function initMiddlewares({ db, model }) {
         emailSend,
         emailSecret: emailSecret(model, uuid),
         modifyEmail: modifyEmail(model),
+        modifyPassword,
         persist: persist(db)
     };
     const render = {
@@ -65,7 +67,8 @@ function initMiddlewares({ db, model }) {
         main: redirectMw('/'),
         login: redirectMw('/login'),
         followedTweets: redirectMw('/account/followed/tweets'),
-        modifyEmail: redirectMw('/account/email/modify')
+        modifyEmail: redirectMw('/account/email/modify'),
+        modifyPassword: redirectMw('/account/password/modify')
     };
     const error = {
         authorize: authorizeError,
