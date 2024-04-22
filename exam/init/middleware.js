@@ -64,7 +64,8 @@ function initMiddlewares({ db, model }) {
     const redirect = {
         main: redirectMw('/'),
         login: redirectMw('/login'),
-        followedTweets: redirectMw('/account/followed/tweets')
+        followedTweets: redirectMw('/account/followed/tweets'),
+        modifyEmail: redirectMw('/account/email/modify')
     };
     const error = {
         authorize: authorizeError,

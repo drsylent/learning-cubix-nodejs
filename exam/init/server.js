@@ -26,7 +26,8 @@ function initRoutes(app, { logic, render, redirect }) {
     app.post('/tweet', logic.authorize);
     app.post('/tweet/:tweetId/delete', logic.authorize);
     app.get('/account/email/modify', logic.authorize, render.modifyEmail);
-    app.post('/account/email/modify', logic.authorize);
+    app.post('/account/email/modify', logic.authorize, logic.findUser.signedIn, logic.findUser.email, 
+            logic.emailSecret, logic.emailSend, logic.persist, redirect.modifyEmail);
     app.get('/email/modify/:secret', logic.findUser.emailSecret, logic.modifyEmail,
             logic.persist, redirect.main);
     app.get('/account/password/modify', logic.authorize, render.modifyPassword);

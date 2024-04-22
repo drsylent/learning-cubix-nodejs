@@ -1,7 +1,7 @@
 import session from "express-session";
 
 const mockedUserNameSetSession = (req, res, next) => {
-    req.session = { userName: "test" };
+    req.session = { userName: "testuser1" };
     console.log('Session username set as "test" for mocking purposes');
     return next();
 };
