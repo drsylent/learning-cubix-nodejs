@@ -17,6 +17,7 @@ import { modifyEmail } from '../middleware/logic/modifyEmail.js';
 import { forgottenPasswordSecret } from '../middleware/logic/forgottenPasswordSecret.js';
 import { forgottenPasswordSecret as forgottenPasswordSecretError } from '../middleware/error/forgottenPasswordSecret.js';
 import { modifyPassword } from '../middleware/logic/modifyPassword.js';
+import { modifyPassword as modifyPasswordError } from '../middleware/error/modifyPassword.js';
 import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
@@ -80,6 +81,7 @@ function initMiddlewares({ db, model }) {
         register: registerError,
         emailSecret: emailSecretError,
         forgottenPasswordSecret: forgottenPasswordSecretError,
+        modifyPassword: modifyPasswordError,
         fallback
     };
     return { logic, render, redirect, error };

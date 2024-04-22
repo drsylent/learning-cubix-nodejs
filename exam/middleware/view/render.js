@@ -10,6 +10,7 @@ function render(page) {
         else {
             res.locals.disabled = "disabled";
         }
+        res.locals.secret = req.params.secret;
         return res.render(page, res.locals);
     };
 }

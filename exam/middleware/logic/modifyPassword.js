@@ -1,17 +1,31 @@
-import { basicErrorMessage } from "../error/modifyPassword.js";
+import { basicErrorMessage, nonExistentErrorMessage } from "../error/modifyPassword.js";
 import { isNonEmptyString } from "../../utility/validation.js";
 
 // only some really basic validations
-function validate({password, password2}) {
+function validate(secret, {password, password2}) {
     if (!isNonEmptyString(password) ||
         password !== password2) {
-        throw new Error(basicErrorMessage);
+        const err = new Error(basicErrorMessage);
+        err.secret = secret;
+        throw err;
     }
 }
 
+function userToModify({ user, userByPasswordSecret }) {
+    if (user) {
+        return user;
+    }
+    return userByPasswordSecret;
+}
+
 const modifyPassword = (req, res, next) => {
-    validate(req.body);
-    res.locals.user.password = req.body.password;
+    validate(req.params.secret, req.body);
+    const user = userToModify(res.locals);
+    if (!user) {
+        throw new Error(nonExistentErrorMessage);
+    }
+    user.password = req.body.password;
+    delete user.passwordSecret;
     return next();
 };
 
