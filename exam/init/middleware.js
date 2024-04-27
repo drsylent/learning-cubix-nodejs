@@ -19,6 +19,9 @@ import { forgottenPasswordSecret as forgottenPasswordSecretError } from '../midd
 import { modifyPassword } from '../middleware/logic/modifyPassword.js';
 import { modifyPassword as modifyPasswordError } from '../middleware/error/modifyPassword.js';
 import { findTweet } from '../middleware/logic/findTweet.js';
+import { findTweet as findTweetError } from '../middleware/error/findTweet.js';
+import { publishTweet } from '../middleware/logic/publishTweet.js';
+import { publishTweet as publishTweetError } from '../middleware/error/publishTweet.js';
 import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
@@ -55,6 +58,7 @@ function initMiddlewares({ db, model }) {
         forgottenPasswordSecret: forgottenPasswordSecret(uuid),
         modifyPassword,
         findTweet,
+        publishTweet: publishTweet(uuid),
         persist: persist(db)
     };
     const render = {
@@ -74,7 +78,8 @@ function initMiddlewares({ db, model }) {
         login: redirectMw('/login'),
         followedTweets: redirectMw('/account/followed/tweets'),
         modifyEmail: redirectMw('/account/email/modify'),
-        modifyPassword: redirectMw('/account/password/modify')
+        modifyPassword: redirectMw('/account/password/modify'),
+        signedInTweets: redirectMw('/:userName/tweets')
     };
     const error = {
         authorize: authorizeError,
@@ -84,6 +89,8 @@ function initMiddlewares({ db, model }) {
         emailSecret: emailSecretError,
         forgottenPasswordSecret: forgottenPasswordSecretError,
         modifyPassword: modifyPasswordError,
+        findTweet: findTweetError,
+        publishTweet: publishTweetError,
         fallback
     };
     return { logic, render, redirect, error };

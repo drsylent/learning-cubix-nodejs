@@ -1,14 +1,15 @@
-import { setWarning } from "../../utility/warning.js";
+import { errorMessage } from "../error/findTweet.js";
 
 const findTweet = (req, res, next) => {
     const tweetId = req.query.tweetid;
     if (tweetId) {
         const tweet = res.locals.user.tweets[tweetId];
         if (tweet) {
-            res.locals.tweet = tweet.content;
+            res.locals.tweetId = tweetId;
+            res.locals.tweet = tweet;
         }
         else {
-            setWarning(req.session, "Tweet nem volt megtalálható az ID-val: " + tweetId);
+            throw new Error(errorMessage);
         }
     }
     return next();

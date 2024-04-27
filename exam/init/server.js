@@ -24,7 +24,8 @@ function initRoutes(app, { logic, render, redirect }) {
     app.post('/account/follow/:userName', logic.authorize);
     app.post('/account/unfollow/:userName', logic.authorize);
     app.get('/tweet', logic.authorize, logic.findUser.signedIn, logic.findTweet, render.tweet);
-    app.post('/tweet', logic.authorize);
+    app.post('/tweet', logic.authorize, logic.findUser.signedIn, 
+             logic.findTweet, logic.publishTweet, logic.persist, redirect.signedInTweets);
     app.post('/tweet/:tweetId/delete', logic.authorize);
     app.get('/account/email/modify', logic.authorize, render.modifyEmail);
     app.post('/account/email/modify', logic.authorize, logic.findUser.signedIn, logic.findUser.email, 
@@ -47,6 +48,8 @@ function initErrorHandlers(app, errorMiddlewares) {
     app.use(errorMiddlewares.modifyPassword);
     app.use(errorMiddlewares.emailSecret);
     app.use(errorMiddlewares.forgottenPasswordSecret);
+    app.use(errorMiddlewares.findTweet);
+    app.use(errorMiddlewares.publishTweet);
     app.use(errorMiddlewares.fallback);
 }
 
