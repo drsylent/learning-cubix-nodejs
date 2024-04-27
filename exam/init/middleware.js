@@ -22,6 +22,8 @@ import { listTweets } from '../middleware/logic/listTweets.js';
 import { listTweets as listTweetsError } from '../middleware/error/listTweets.js';
 import { follow } from '../middleware/logic/follow.js';
 import { follow as followError } from '../middleware/error/follow.js';
+import { unfollow } from '../middleware/logic/unfollow.js';
+import { unfollow as unfollowError } from '../middleware/error/unfollow.js';
 import { findTweet } from '../middleware/logic/findTweet.js';
 import { findTweet as findTweetError } from '../middleware/error/findTweet.js';
 import { publishTweet } from '../middleware/logic/publishTweet.js';
@@ -63,6 +65,7 @@ function initMiddlewares({ db, model }) {
         modifyPassword,
         listTweets: listTweets(model),
         follow,
+        unfollow,
         findTweet,
         publishTweet: publishTweet(uuid),
         persist: persist(db)
@@ -97,6 +100,7 @@ function initMiddlewares({ db, model }) {
         forgottenPasswordSecret: forgottenPasswordSecretError,
         modifyPassword: modifyPasswordError,
         follow: followError,
+        unfollow: unfollowError,
         listTweets: listTweetsError,
         findTweet: findTweetError,
         publishTweet: publishTweetError,
