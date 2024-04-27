@@ -23,7 +23,7 @@ function initRoutes(app, { logic, render, redirect }) {
     app.get('/account/followed/users', logic.authorize, render.listUsers);
     app.post('/account/follow/:userName', logic.authorize);
     app.post('/account/unfollow/:userName', logic.authorize);
-    app.get('/tweet', logic.authorize, render.tweet);
+    app.get('/tweet', logic.authorize, logic.findUser.signedIn, logic.findTweet, render.tweet);
     app.post('/tweet', logic.authorize);
     app.post('/tweet/:tweetId/delete', logic.authorize);
     app.get('/account/email/modify', logic.authorize, render.modifyEmail);

@@ -18,6 +18,7 @@ import { forgottenPasswordSecret } from '../middleware/logic/forgottenPasswordSe
 import { forgottenPasswordSecret as forgottenPasswordSecretError } from '../middleware/error/forgottenPasswordSecret.js';
 import { modifyPassword } from '../middleware/logic/modifyPassword.js';
 import { modifyPassword as modifyPasswordError } from '../middleware/error/modifyPassword.js';
+import { findTweet } from '../middleware/logic/findTweet.js';
 import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
@@ -53,6 +54,7 @@ function initMiddlewares({ db, model }) {
         modifyEmail: modifyEmail(model),
         forgottenPasswordSecret: forgottenPasswordSecret(uuid),
         modifyPassword,
+        findTweet,
         persist: persist(db)
     };
     const render = {

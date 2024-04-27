@@ -27,7 +27,7 @@ function register(model) {
             userName: req.body.userName,
             password: req.body.password,
             follows: [],
-            tweets: []
+            tweets: {}
         };
         model.insert(newUser);
         console.log('New user created: ', newUser);
