@@ -23,6 +23,22 @@ function listTweets(model) {
             }
             res.locals.tweets.sort((a, b) => b.publishedOn - a.publishedOn);
         }
+        else {
+            const users = res.locals.user.follows.map(userName => model.findOne({userName}));
+            res.locals.signedInUserName = res.locals.user.userName;
+            res.locals.tweets = [];
+            for (const user of users) {
+                for (const [key, value] of Object.entries(user.tweets)) {
+                    res.locals.tweets.push({
+                        id: key,
+                        content: value.content,
+                        publishedOn: value.publishedOn,
+                        userName: user.userName
+                    });
+                }
+            }
+            res.locals.tweets.sort((a, b) => b.publishedOn - a.publishedOn);
+        }
         return next();
     };
 }

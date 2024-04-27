@@ -18,6 +18,7 @@ import { forgottenPasswordSecret } from '../middleware/logic/forgottenPasswordSe
 import { forgottenPasswordSecret as forgottenPasswordSecretError } from '../middleware/error/forgottenPasswordSecret.js';
 import { modifyPassword } from '../middleware/logic/modifyPassword.js';
 import { modifyPassword as modifyPasswordError } from '../middleware/error/modifyPassword.js';
+import { listFollows } from '../middleware/logic/listFollows.js';
 import { listTweets } from '../middleware/logic/listTweets.js';
 import { listTweets as listTweetsError } from '../middleware/error/listTweets.js';
 import { follow } from '../middleware/logic/follow.js';
@@ -63,6 +64,7 @@ function initMiddlewares({ db, model }) {
         modifyEmail: modifyEmail(model),
         forgottenPasswordSecret: forgottenPasswordSecret(uuid),
         modifyPassword,
+        listFollows: listFollows(model),
         listTweets: listTweets(model),
         follow,
         unfollow,
