@@ -7,7 +7,10 @@ function listTweets(model) {
             if (!user) {
                 throw new Error(errorMessage);
             }
-            res.locals.signedInUserName = req.session.userName;
+            if (res.locals.user) {
+                res.locals.signedInUserName = res.locals.user.userName;
+                res.locals.currentlyFollows = res.locals.user.follows.find(userName => userName === req.params.userName);
+            }
             res.locals.userName = req.params.userName;
             res.locals.tweets = [];
             for (const [key, value] of Object.entries(user.tweets)) {

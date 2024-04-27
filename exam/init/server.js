@@ -18,10 +18,12 @@ function initRoutes(app, { logic, render, redirect }) {
     app.get('/password/modify/:secret', render.modifyPassword);
     app.post('/password/modify/:secret', logic.findUser.passwordSecret, logic.modifyPassword, logic.persist, redirect.login);
     app.get('/users', render.listUsers);
-    app.get('/:userName/tweets', logic.listTweets, render.listTweets);
+    app.get('/:userName/tweets', logic.findUser.signedIn, logic.listTweets, render.listTweets);
     app.get('/account/followed/tweets', logic.authorize, render.listTweets);
     app.get('/account/followed/users', logic.authorize, render.listUsers);
-    app.post('/account/follow/:userName', logic.authorize);
+    app.post('/account/follow/:userName', logic.authorize, 
+             logic.findUser.signedIn, logic.findUser.userName, 
+             logic.follow, logic.persist, redirect.followedUsers);
     app.post('/account/unfollow/:userName', logic.authorize);
     app.get('/tweet', logic.authorize, logic.findUser.signedIn, logic.findTweet, render.tweet);
     app.post('/tweet', logic.authorize, logic.findUser.signedIn, 
@@ -48,6 +50,7 @@ function initErrorHandlers(app, errorMiddlewares) {
     app.use(errorMiddlewares.modifyPassword);
     app.use(errorMiddlewares.emailSecret);
     app.use(errorMiddlewares.forgottenPasswordSecret);
+    app.use(errorMiddlewares.follow);
     app.use(errorMiddlewares.listTweets);
     app.use(errorMiddlewares.findTweet);
     app.use(errorMiddlewares.publishTweet);

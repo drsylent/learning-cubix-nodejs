@@ -9,14 +9,16 @@
                 <div class="row">
                     <h4 class="col-6"><%= userName %> tweetjei</h4>
                     <div class="col-2"></div>
-                    <% if (userName !== signedInUserName && signedInUserName) { %>
+                    <% if (typeof signedInUserName !== 'undefined' && userName !== signedInUserName) { %>
+                    <% if (currentlyFollows) { %>
+                    <form class="col-4 text-end" method="POST" action="/account/unfollow/<%= userName %>">
+                        <button class="btn btn-warning" type="submit">Követés leállítása</button>
+                    </form>
+                    <% } else { %>
                     <form class="col-4 text-end" method="POST" action="/account/follow/<%= userName %>">
                         <button class="btn btn-primary" type="submit">Követem</button>
                     </form>
-                    <!-- <form class="col-4 text-end" method="POST" action="/account/unfollow/<%= userName %>">
-                        <button class="btn btn-warning" type="submit">Követés leállítása</button>
-                    </form> -->
-                    <% } %>
+                    <% } } %>
                 </div>
             </div>
         <div class="col-lg-3"></div>
@@ -30,10 +32,10 @@
                 <div class="card-body">
                     <h5 class="card-title"><%= userName %></h5>
                     <p class="card-text text-center"><%= content %></p>
-                    <% if (userName === signedInUserName) { %>
+                    <% if (typeof signedInUserName !== 'undefined' && userName === signedInUserName) { %>
                     <div class="container">
                         <div class="row">
-                            <div class="col-6"><a class="card-link" href="/tweet?<%= id %>">Szerkesztés</a></div>
+                            <div class="col-6"><a class="card-link" href="/tweet?tweetid=<%= id %>">Szerkesztés</a></div>
                             <div class="col-2"></div>
                             <form class="col-4 text-end" method="POST" action="/tweet/<%= id %>/delete">
                                 <button class="btn btn-danger" type="submit">Törlés</button>

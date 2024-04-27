@@ -20,6 +20,8 @@ import { modifyPassword } from '../middleware/logic/modifyPassword.js';
 import { modifyPassword as modifyPasswordError } from '../middleware/error/modifyPassword.js';
 import { listTweets } from '../middleware/logic/listTweets.js';
 import { listTweets as listTweetsError } from '../middleware/error/listTweets.js';
+import { follow } from '../middleware/logic/follow.js';
+import { follow as followError } from '../middleware/error/follow.js';
 import { findTweet } from '../middleware/logic/findTweet.js';
 import { findTweet as findTweetError } from '../middleware/error/findTweet.js';
 import { publishTweet } from '../middleware/logic/publishTweet.js';
@@ -39,7 +41,7 @@ function initMiddlewares({ db, model }) {
                 (req) => ({$or: [{ emailTemporary: req.body.email }, { email: req.body.email }] }), 
                 (res, user) => { res.locals.userByEmail = user; } ),
             userName: findUser(model, 
-                (req) => ({ userName: req.body.userName }), 
+                (req) => ({$or: [{ userName: req.body.userName }, { userName: req.params.userName }] }), 
                 (res, user) => { res.locals.userByUserName = user; }),
             emailSecret: findUser(model, 
                 (req) => ({ emailSecret: req.params.secret }), 
@@ -60,6 +62,7 @@ function initMiddlewares({ db, model }) {
         forgottenPasswordSecret: forgottenPasswordSecret(uuid),
         modifyPassword,
         listTweets: listTweets(model),
+        follow,
         findTweet,
         publishTweet: publishTweet(uuid),
         persist: persist(db)
@@ -80,6 +83,7 @@ function initMiddlewares({ db, model }) {
         main: redirectMw('/'),
         login: redirectMw('/login'),
         followedTweets: redirectMw('/account/followed/tweets'),
+        followedUsers: redirectMw('/account/followed/users'),
         modifyEmail: redirectMw('/account/email/modify'),
         modifyPassword: redirectMw('/account/password/modify'),
         signedInTweets: redirectMw('/:userName/tweets')
@@ -92,6 +96,7 @@ function initMiddlewares({ db, model }) {
         emailSecret: emailSecretError,
         forgottenPasswordSecret: forgottenPasswordSecretError,
         modifyPassword: modifyPasswordError,
+        follow: followError,
         listTweets: listTweetsError,
         findTweet: findTweetError,
         publishTweet: publishTweetError,
