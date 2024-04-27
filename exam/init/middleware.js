@@ -29,6 +29,7 @@ import { findTweet } from '../middleware/logic/findTweet.js';
 import { findTweet as findTweetError } from '../middleware/error/findTweet.js';
 import { publishTweet } from '../middleware/logic/publishTweet.js';
 import { publishTweet as publishTweetError } from '../middleware/error/publishTweet.js';
+import { deleteTweet } from '../middleware/logic/deleteTweet.js';
 import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
@@ -70,6 +71,7 @@ function initMiddlewares({ db, model }) {
         unfollow,
         findTweet,
         publishTweet: publishTweet(uuid),
+        deleteTweet,
         persist: persist(db)
     };
     const render = {
