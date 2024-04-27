@@ -6,27 +6,28 @@
         <div class="col-lg-6">
             <div class="container tjs-row">
                 <div class="row">
-                    <h4 class="col-6">Felhasználó2 tweetjei</h4>
+                    <h4 class="col-6"><%= userName %> tweetjei</h4>
                     <div class="col-2"></div>
-                    <form class="col-4 text-end" method="POST" action="/account/follow/{username}">
+                    <form class="col-4 text-end" method="POST" action="/account/follow/<%= userName %>">
                         <button class="btn btn-primary" type="submit">Követem</button>
                     </form>
                 </div>
             </div>
         <div class="col-lg-3"></div>
     </div>
+    <% for (const [key, value] of Object.entries(tweets)) { %>
     <div class="row tjs-row">
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Felhasználó2</h5>
-                    <p class="card-text text-center">Itt egy tweet szövege</p>
+                    <h5 class="card-title"><%= userName %></h5>
+                    <p class="card-text text-center"><%= value.content %></p>
                     <div class="container">
                         <div class="row">
-                            <div class="col-6"><a class="card-link" href="/tweet">Szerkesztés</a></div>
+                            <div class="col-6"><a class="card-link" href="/tweet?<%= key %>">Szerkesztés</a></div>
                             <div class="col-2"></div>
-                            <form class="col-4 text-end" method="POST" action="/tweet/{tweetId}/delete">
+                            <form class="col-4 text-end" method="POST" action="/tweet/<%= key %>/delete">
                                 <button class="btn btn-danger" type="submit">Törlés</button>
                             </form>        
                         </div>
@@ -36,27 +37,7 @@
         </div>
         <div class="col-lg-3"></div>
     </div>
-    <div class="row tjs-row">
-        <div class="col-lg-3"></div>
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Felhasználó2</h5>
-                    <p class="card-text text-center">Itt egy másik tweet szövege</p>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6"><a class="card-link" href="/tweet">Szerkesztés</a></div>
-                            <div class="col-2"></div>
-                            <form class="col-4 text-end" method="POST" action="/tweet/{tweetId}/delete">
-                                <button class="btn btn-danger" type="submit">Törlés</button>
-                            </form>        
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3"></div>
-    </div>
+    <% } %>
 </div>
 
 <%- include('footer') %>

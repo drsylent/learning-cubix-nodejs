@@ -18,6 +18,8 @@ import { forgottenPasswordSecret } from '../middleware/logic/forgottenPasswordSe
 import { forgottenPasswordSecret as forgottenPasswordSecretError } from '../middleware/error/forgottenPasswordSecret.js';
 import { modifyPassword } from '../middleware/logic/modifyPassword.js';
 import { modifyPassword as modifyPasswordError } from '../middleware/error/modifyPassword.js';
+import { listTweets } from '../middleware/logic/listTweets.js';
+import { listTweets as listTweetsError } from '../middleware/error/listTweets.js';
 import { findTweet } from '../middleware/logic/findTweet.js';
 import { findTweet as findTweetError } from '../middleware/error/findTweet.js';
 import { publishTweet } from '../middleware/logic/publishTweet.js';
@@ -57,6 +59,7 @@ function initMiddlewares({ db, model }) {
         modifyEmail: modifyEmail(model),
         forgottenPasswordSecret: forgottenPasswordSecret(uuid),
         modifyPassword,
+        listTweets: listTweets(model),
         findTweet,
         publishTweet: publishTweet(uuid),
         persist: persist(db)
@@ -89,6 +92,7 @@ function initMiddlewares({ db, model }) {
         emailSecret: emailSecretError,
         forgottenPasswordSecret: forgottenPasswordSecretError,
         modifyPassword: modifyPasswordError,
+        listTweets: listTweetsError,
         findTweet: findTweetError,
         publishTweet: publishTweetError,
         fallback

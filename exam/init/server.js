@@ -18,7 +18,7 @@ function initRoutes(app, { logic, render, redirect }) {
     app.get('/password/modify/:secret', render.modifyPassword);
     app.post('/password/modify/:secret', logic.findUser.passwordSecret, logic.modifyPassword, logic.persist, redirect.login);
     app.get('/users', render.listUsers);
-    app.get('/:userName/tweets', render.listTweets);
+    app.get('/:userName/tweets', logic.listTweets, render.listTweets);
     app.get('/account/followed/tweets', logic.authorize, render.listTweets);
     app.get('/account/followed/users', logic.authorize, render.listUsers);
     app.post('/account/follow/:userName', logic.authorize);
@@ -48,6 +48,7 @@ function initErrorHandlers(app, errorMiddlewares) {
     app.use(errorMiddlewares.modifyPassword);
     app.use(errorMiddlewares.emailSecret);
     app.use(errorMiddlewares.forgottenPasswordSecret);
+    app.use(errorMiddlewares.listTweets);
     app.use(errorMiddlewares.findTweet);
     app.use(errorMiddlewares.publishTweet);
     app.use(errorMiddlewares.fallback);
