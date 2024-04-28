@@ -2,6 +2,7 @@ import { setWarning } from '../../utility/warning.js';
 
 const notFoundErrorMessage = 'follow-notFound';
 const alreadyFollowingErrorMessage = 'follow-alreadyFollowing';
+const yourselfErrorMessage = 'follow-yourself';
 
 const follow = (err, req, res, next) => {
     if (err.message === notFoundErrorMessage) {
@@ -12,7 +13,11 @@ const follow = (err, req, res, next) => {
         setWarning(req.session, 'A felhasználót már követed.');
         return res.redirect('/account/followed/users'); 
     }
+    if (err.message === yourselfErrorMessage) {
+        setWarning(req.session, 'Önmagad nem követheted.');
+        return res.redirect('/account/followed/users'); 
+    }
     return next(err);
 }
 
-export { follow, notFoundErrorMessage, alreadyFollowingErrorMessage };
+export { follow, notFoundErrorMessage, alreadyFollowingErrorMessage, yourselfErrorMessage };

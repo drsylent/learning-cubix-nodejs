@@ -1,7 +1,10 @@
-import { alreadyFollowingErrorMessage, notFoundErrorMessage } from "../error/follow.js";
+import { alreadyFollowingErrorMessage, notFoundErrorMessage, yourselfErrorMessage } from "../error/follow.js";
 
 const follow = (req, res, next) => {
     if (res.locals.userByUserName) {
+        if (res.locals.userByUserName.userName === res.locals.user.userName) {
+            throw new Error(yourselfErrorMessage);
+        }
         const found = res.locals.user.follows.find(userName => userName === res.locals.userByUserName.userName);
         if (found) {
             throw new Error(alreadyFollowingErrorMessage);
