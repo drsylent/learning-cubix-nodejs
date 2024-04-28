@@ -2,70 +2,27 @@
 
 <div class="container-fluid">
     <div class="row row-cols-lg-3">
+        <% for (user of users) { %>
         <div class="col">
             <div class="card tjs-row">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Felhasználó1</h5>
+                    <h5 class="card-title text-center"><%= user.userName %></h5>
                     <div class="container">
                         <div class="row">
-                            <div class="col-6"><a class="card-link" href="/{userName}/tweets">Tweetek</a></div>
+                            <div class="col-6"><a class="card-link" href="/<%= user.userName %>/tweets">Tweetek</a></div>
                             <div class="col-1"></div>
-                            <form class="col-5 text-end" method="POST" action="/account/follow/{userName}">
+                            <form class="col-5 text-end" method="POST" action="/account/follow/<%= user.userName %>">
                                 <button class="btn btn-primary" type="submit">Követem</button>
-                            </form>        
+                            </form>
+                            <!-- <form class="col-5 text-end" method="POST" action="/account/unfollow/<%= userName %>">
+                                <button class="btn btn-danger" type="submit">Követés leállítása</button>
+                            </form>       -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div class="card tjs-row">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Felhasználó2</h5>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6"><a class="card-link" href="/{userName}/tweets">Tweetek</a></div>
-                            <div class="col-1"></div>
-                            <form class="col-5 text-end" method="POST" action="/account/follow/{userName}">
-                                <button class="btn btn-primary" type="submit">Követem</button>
-                            </form>        
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card tjs-row">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Felhasználó3</h5>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6"><a class="card-link" href="/{userName}/tweets">Tweetek</a></div>
-                            <div class="col-1"></div>
-                            <form class="col-5 text-end" method="POST" action="/account/follow/{userName}">
-                                <button class="btn btn-primary" type="submit">Követem</button>
-                            </form>        
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card tjs-row">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Felhasználó4</h5>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6"><a class="card-link" href="/{userName}/tweets">Tweetek</a></div>
-                            <div class="col-1"></div>
-                            <form class="col-5 text-end" method="POST" action="/account/unfollow/{userName}">
-                                <button class="btn btn-primary" type="submit">Követés leállítása</button>
-                            </form>        
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <% } %>
     </div>
 </div>
 
