@@ -8,10 +8,9 @@ function listTweets(model) {
                 throw new Error(errorMessage);
             }
             if (res.locals.user) {
-                res.locals.signedInUserName = res.locals.user.userName;
                 res.locals.currentlyFollows = res.locals.user.follows.find(userName => userName === req.params.userName);
             }
-            res.locals.userName = req.params.userName;
+            res.locals.tweetsUserName = req.params.userName;
             res.locals.tweets = [];
             for (const [key, value] of Object.entries(user.tweets)) {
                 res.locals.tweets.push({
@@ -25,7 +24,6 @@ function listTweets(model) {
         }
         else {
             const users = res.locals.user.follows.map(userName => model.findOne({userName}));
-            res.locals.signedInUserName = res.locals.user.userName;
             res.locals.tweets = [];
             for (const user of users) {
                 for (const [key, value] of Object.entries(user.tweets)) {

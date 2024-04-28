@@ -11,7 +11,7 @@ function render(page) {
             res.locals.disabled = "disabled";
         }
         res.locals.secret = req.params.secret;
-        res.locals.userName = req.session.userName;
+        res.locals.signedInUserName = req.session.userName;
         return res.render(page, res.locals);
     };
 }
