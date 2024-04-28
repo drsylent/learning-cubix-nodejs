@@ -17,7 +17,7 @@ function initRoutes(app, { logic, render, redirect }) {
             logic.forgottenPasswordSecret, logic.emailSend, logic.persist, redirect.login);
     app.get('/password/modify/:secret', render.modifyPassword);
     app.post('/password/modify/:secret', logic.findUser.passwordSecret, logic.modifyPassword, logic.persist, redirect.login);
-    app.get('/users', logic.listUsers, render.listUsers);
+    app.get('/users', logic.findUser.signedIn, logic.listUsers, render.listUsers);
     app.get('/:userName/tweets', logic.findUser.signedIn, logic.listTweets, render.listTweets);
     app.get('/account/followed/tweets', logic.authorize, logic.findUser.signedIn, 
              logic.listFollows, logic.listTweets, render.listTweets);

@@ -11,12 +11,16 @@
                         <div class="row">
                             <div class="col-6"><a class="card-link" href="/<%= user.userName %>/tweets">Tweetek</a></div>
                             <div class="col-1"></div>
+                            <% if (typeof user.currentlyFollows !== 'undefined') { %>
+                            <% if (user.currentlyFollows) { %>
+                            <form class="col-5 text-end" method="POST" action="/account/unfollow/<%= user.userName %>">
+                                <button class="btn btn-danger" type="submit">Követés leállítása</button>
+                            </form>
+                            <% } else { %>
                             <form class="col-5 text-end" method="POST" action="/account/follow/<%= user.userName %>">
                                 <button class="btn btn-primary" type="submit">Követem</button>
                             </form>
-                            <!-- <form class="col-5 text-end" method="POST" action="/account/unfollow/<%= userName %>">
-                                <button class="btn btn-danger" type="submit">Követés leállítása</button>
-                            </form>       -->
+                            <% }} %>
                         </div>
                     </div>
                 </div>
