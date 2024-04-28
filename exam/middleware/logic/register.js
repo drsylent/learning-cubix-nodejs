@@ -30,7 +30,7 @@ function register(model) {
             tweets: {}
         };
         model.insert(newUser);
-        console.log('New user created: ', newUser);
+        console.log('New user created:', newUser.userName);
         setWarning(req.session, 'Első bejelentkezésed előtt meg kell erősítsd az email címed');
         res.locals.user = newUser;
         return next();
