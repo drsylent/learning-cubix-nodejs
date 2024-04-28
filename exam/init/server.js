@@ -21,7 +21,7 @@ function initRoutes(app, { logic, render, redirect }) {
     app.get('/:userName/tweets', logic.findUser.signedIn, logic.listTweets, render.listTweets);
     app.get('/account/followed/tweets', logic.authorize, logic.findUser.signedIn, 
              logic.listFollows, logic.listTweets, render.listTweets);
-    app.get('/account/followed/users', logic.authorize, render.listUsers);
+    app.get('/account/followed/users', logic.authorize, logic.findUser.signedIn, logic.listFollows, render.listUsers);
     app.post('/account/follow/:userName', logic.authorize, 
              logic.findUser.signedIn, logic.findUser.userName, 
              logic.follow, logic.persist, redirect.followedUsers);
