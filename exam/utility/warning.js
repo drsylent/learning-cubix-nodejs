@@ -1,6 +1,6 @@
 import { logging } from "./logging.js";
 
-const logger = logging('warning');
+const logger = logging('utility/warning');
 
 function getWarning(session) {
     return session.warning;
