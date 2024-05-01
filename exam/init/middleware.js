@@ -14,6 +14,7 @@ import { emailSend } from "../middleware/logic/emailSend.js";
 import { emailSecret } from "../middleware/logic/emailSecret.js";
 import { emailSecret as emailSecretError } from '../middleware/error/emailSecret.js';
 import { modifyEmail } from '../middleware/logic/modifyEmail.js';
+import { modifyEmail as modifyEmailError } from '../middleware/error/modifyEmail.js';
 import { forgottenPasswordSecret } from '../middleware/logic/forgottenPasswordSecret.js';
 import { forgottenPasswordSecret as forgottenPasswordSecretError } from '../middleware/error/forgottenPasswordSecret.js';
 import { modifyPassword } from '../middleware/logic/modifyPassword.js';
@@ -109,6 +110,7 @@ function initMiddlewares({ db, model }) {
         register: registerError,
         emailSecret: emailSecretError,
         forgottenPasswordSecret: forgottenPasswordSecretError,
+        modifyEmail: modifyEmailError,
         modifyPassword: modifyPasswordError,
         follow: followError,
         unfollow: unfollowError,

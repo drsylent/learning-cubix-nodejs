@@ -1,3 +1,4 @@
+import { errorMessage } from "../error/modifyEmail.js";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/modifyEmail');
@@ -8,7 +9,7 @@ function modifyEmail(model) {
         const user = res.locals.userByEmailSecret;
         if (!user) {
             logger.debug('User is not found by email secret');
-            throw new Error("User not found");
+            throw new Error(errorMessage);
         }
         user.email = user.emailTemporary;
         delete user.emailTemporary;

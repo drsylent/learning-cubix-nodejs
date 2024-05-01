@@ -58,6 +58,7 @@ function initErrorHandlers(app, errorMiddlewares) {
     app.use(errorMiddlewares.mustNotBeSignedIn);
     app.use(errorMiddlewares.login);
     app.use(errorMiddlewares.register);
+    app.use(errorMiddlewares.modifyEmail);
     app.use(errorMiddlewares.modifyPassword);
     app.use(errorMiddlewares.emailSecret);
     app.use(errorMiddlewares.forgottenPasswordSecret);
