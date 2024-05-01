@@ -68,7 +68,7 @@ function initMiddlewares({ db, model }) {
         logout,
         register: register(model),
         emailSend,
-        emailSecret: emailSecret(model, uuid),
+        emailSecret: emailSecret(uuid),
         modifyEmail: modifyEmail(model),
         forgottenPasswordSecret: forgottenPasswordSecret(uuid),
         modifyPassword,

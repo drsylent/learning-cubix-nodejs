@@ -1,4 +1,4 @@
-import { setWarning } from '../../utility/warning.js';
+import { commonErrorHandling } from "../../utility/error.js";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/error/listTweets');
@@ -7,9 +7,7 @@ const errorMessage = 'listTweets';
 
 const listTweets = (err, req, res, next) => {
     if (err.message === errorMessage) {
-        logger.debugOrTrace("Caught error: " + err.message, req, res);
-        setWarning(req.session, 'A megadott felhasználó nem létezik');
-        return res.redirect('/users'); 
+        return commonErrorHandling(err, req, res, logger, 'A megadott felhasználó nem létezik.', '/users');
     }
     return next(err);
 }

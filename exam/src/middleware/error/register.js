@@ -1,4 +1,4 @@
-import { setWarning } from '../../utility/warning.js';
+import { commonErrorHandling } from "../../utility/error.js";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/error/register');
@@ -8,14 +8,10 @@ const duplicationErrorMessage = 'register-duplication';
 
 const register = (err, req, res, next) => {
     if (err.message === basicErrorMessage) {
-        logger.debugOrTrace("Caught error: " + err.message, req, res);
-        setWarning(req.session, 'Érvénytelen adatok - ellenőrizd');
-        return res.redirect('/register');
+        return commonErrorHandling(err, req, res, logger, 'Érvénytelen adatok - ellenőrizd.', '/register');
     }
     if (err.message === duplicationErrorMessage) {
-        logger.debugOrTrace("Caught error: " + err.message, req, res);
-        setWarning(req.session, 'A felhasználónév vagy az email cím már foglalt');
-        return res.redirect('/register');
+        return commonErrorHandling(err, req, res, logger, 'A felhasználónév vagy az email cím már foglalt.', '/register');
     }
     return next(err);
 }

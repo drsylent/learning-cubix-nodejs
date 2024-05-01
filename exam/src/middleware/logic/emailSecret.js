@@ -5,7 +5,7 @@ import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/emailSecret');
 
-function emailSecret(model, uuid) {
+function emailSecret(uuid) {
     return (req, res, next) => {
         logger.trace('MW called', req, res);
         if (res.locals.userByEmail) {
