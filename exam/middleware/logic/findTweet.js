@@ -1,7 +1,7 @@
 import { errorMessage } from "../error/findTweet.js";
 
 const findTweet = (req, res, next) => {
-    const tweetId = req.query.tweetid ? req.query.tweetid : req.params.tweetId;
+    const tweetId = req.params.tweetId;
     if (tweetId) {
         const tweet = res.locals.user.tweets[tweetId];
         if (tweet) {

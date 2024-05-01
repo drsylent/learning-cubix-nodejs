@@ -28,8 +28,11 @@ function initRoutes(app, { logic, render, redirect }) {
     app.post('/account/unfollow/:userName', logic.authorize, 
              logic.findUser.signedIn, logic.findUser.userName, 
              logic.unfollow, logic.persist, redirect.followedUsers);
-    app.get('/tweet', logic.authorize, logic.findUser.signedIn, logic.findTweet, render.tweet);
+    app.get('/tweet', logic.authorize, logic.findUser.signedIn, render.tweet);
     app.post('/tweet', logic.authorize, logic.findUser.signedIn, 
+             logic.publishTweet, logic.persist, redirect.signedInTweets);
+    app.get('/tweet/:tweetId/modify', logic.authorize, logic.findUser.signedIn, logic.findTweet, render.tweet);
+    app.post('/tweet/:tweetId/modify', logic.authorize, logic.findUser.signedIn, 
              logic.findTweet, logic.publishTweet, logic.persist, redirect.signedInTweets);
     app.post('/tweet/:tweetId/delete', logic.authorize, logic.findUser.signedIn, logic.findTweet, 
              logic.deleteTweet, logic.persist, redirect.signedInTweets);

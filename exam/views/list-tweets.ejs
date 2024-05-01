@@ -35,7 +35,7 @@
                     <% if (typeof signedInUserName !== 'undefined' && userName === signedInUserName) { %>
                     <div class="container">
                         <div class="row">
-                            <div class="col-6"><a class="card-link" href="/tweet?tweetid=<%= id %>">Szerkesztés</a></div>
+                            <div class="col-6"><a class="card-link" href="/tweet/<%= id %>/modify">Szerkesztés</a></div>
                             <div class="col-2"></div>
                             <form class="col-4 text-end" method="POST" action="/tweet/<%= id %>/delete">
                                 <button class="btn btn-danger" type="submit">Törlés</button>

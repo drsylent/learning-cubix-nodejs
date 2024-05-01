@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-4 col-sm-3 col-xs-1"></div>
                 <div class="col-lg-4 col-sm-6 col-xs-10">
-                    <form class="container" method="POST" action="/tweet<% if (typeof tweetId !== 'undefined') { %>?tweetid=<%= tweetId %><% } %>" id="tweet-form">
+                    <form class="container" method="POST" action="/tweet<% if (typeof tweetId !== 'undefined') { %>/<%= tweetId %>/modify<% } %>" id="tweet-form">
                         <div class="row tjs-row">
                             <textarea class="form-control" rows="4" required maxlength="300" name="tweet" id="tweet" form="tweet-form"><% if (typeof tweet !== 'undefined') { %><%= tweet.content %><% } %></textarea>
                         </div>
