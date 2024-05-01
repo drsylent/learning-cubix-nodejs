@@ -1,0 +1,31 @@
+name: Build on Main
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  full-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: 'exam/package-lock.json'
+    - name: Download dependencies
+      run: npm ci
+      working-directory: 'exam'
+    - name: Logging in to Docker
+      run: docker login ghcr.io -u drsylent -p ${{ github.token }}
+    - name: Build the Docker image
+      run: docker build . -t ghcr.io/drsylent/cubix/nodejs/exam:latest
+      working-directory: 'exam'
+    - name: Publishing the Docker image
+      run: docker push ghcr.io/drsylent/cubix/nodejs/exam:latest
