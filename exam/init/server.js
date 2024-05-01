@@ -1,4 +1,5 @@
 import express from "express";
+import { configValue } from "../utility/config.js";
 import { logging } from "../utility/logging.js";
 
 const logger = logging('init/server');
@@ -83,8 +84,9 @@ function initServer(middlewares) {
     initErrorHandlers(app, middlewares.error);
     logger.debug('Server initialization completed');
 
-    app.listen(8080, function () {
-        logger.info('Server is listening on port 8080');
+    const port = Number.parseInt(configValue("SERVER_PORT", "8080"));
+    app.listen(port, function () {
+        logger.info('Server is listening on port ' + port);
     });
 }
 

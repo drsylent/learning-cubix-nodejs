@@ -1,5 +1,6 @@
 import { errorMessage } from "../error/forgottenPasswordSecret.js";
 import { prepareEmail } from "./emailSend.js";
+import { configValue } from "../../utility/config.js";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/forgottenPasswordSecret');
@@ -14,7 +15,8 @@ function forgottenPasswordSecret(uuid) {
         const secret = uuid();
         res.locals.userByEmail.passwordSecret = secret;
         logger.info('Generated new password secret for user ' + res.locals.userByEmail.userName);
-        prepareEmail(res, res.locals.userByEmail.email, "Ezen a linken módosíthatod a jelszavad: http://localhost:8080/password/modify/" + secret);
+        const baseUrl = configValue('BASE_URL', 'http://localhost:8080');
+        prepareEmail(res, res.locals.userByEmail.email, `Ezen a linken módosíthatod a jelszavad: ${baseUrl}/password/modify/${secret}`);
         return next();
     }
 }
