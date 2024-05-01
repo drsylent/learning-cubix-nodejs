@@ -57,7 +57,7 @@
             "internalConsoleOptions": "neverOpen",
             "name": "Exam",
             "cwd": "${workspaceFolder}/exam",
-            "program": "${workspaceFolder}/exam/index.js",
+            "program": "${workspaceFolder}/exam/src/index.js",
             "request": "launch",
             "restart": true,
             "runtimeExecutable": "${workspaceFolder}/exam/node_modules/.bin/nodemon",
