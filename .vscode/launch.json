@@ -64,6 +64,9 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
+            "env": {
+                "DATABASE_LOCATION": "tjs.db"
+            },
             "type": "node"
         }
     ]

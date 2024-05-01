@@ -1,6 +1,7 @@
 import { initServer } from "./init/server.js";
 import { initDatabase } from "./init/db.js";
 import { initMiddlewares } from "./init/middleware.js";
+import { configValue } from "./utility/config.js";
 import { logging } from "./utility/logging.js";
 
 const logger = logging("index");
@@ -18,4 +19,4 @@ function startup(databaseLocation) {
     });
 }
 
-startup("tjs.db");
+startup(configValue("DATABASE_LOCATION"));

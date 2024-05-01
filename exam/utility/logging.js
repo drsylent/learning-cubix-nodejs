@@ -1,4 +1,6 @@
-const level = 'INFO';
+import { configValue } from "./config.js";
+
+const level = configValue("LOGGING_LEVEL", "INFO");
 
 function doLog(source, level, text) {
     console.log(`${level} [${source}]: ${text}`);
