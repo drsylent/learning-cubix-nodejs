@@ -1,4 +1,7 @@
 import express from "express";
+import { logging } from "../utility/logging.js";
+
+const logger = logging('init/server');
 
 function initRoutes(app, { logic, render, redirect }) {
     app.use(logic.session);
@@ -65,6 +68,7 @@ function initErrorHandlers(app, errorMiddlewares) {
 }
 
 function initServer(middlewares) {
+    logger.debug('Server initialization started');
     const app = express();
 
     // parse application/x-www-form-urlencoded
@@ -75,9 +79,10 @@ function initServer(middlewares) {
 
     initRoutes(app, middlewares);
     initErrorHandlers(app, middlewares.error);
+    logger.debug('Server initialization completed');
 
     app.listen(8080, function () {
-        console.log('Running on :8080');
+        logger.info('Server is listening on port 8080');
     });
 }
 

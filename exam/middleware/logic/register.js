@@ -2,6 +2,9 @@ import { isNonEmptyString } from "../../utility/validation.js";
 import { setWarning } from "../../utility/warning.js";
 import { basicErrorMessage } from "../error/register.js";
 import { duplicationErrorMessage } from "../error/register.js";
+import { logging } from "../../utility/logging.js";
+
+const logger = logging('middleware/logic/register');
 
 // only some really basic validations
 function validate({userName, email, password, password2}) {
@@ -9,18 +12,21 @@ function validate({userName, email, password, password2}) {
         !isNonEmptyString(email) || 
         !isNonEmptyString(password) ||
         password !== password2) {
-        throw new Error(basicErrorMessage);
+            logger.debug("Invalid data was passed");
+            throw new Error(basicErrorMessage);
     }
 }
 
 function duplicationValidation(res) {
     if (res.locals.userByEmail || res.locals.userByUserName) {
+        logger.debug("User exists already with data like this");
         throw new Error(duplicationErrorMessage);
     }
 }
 
 function register(model) {
     return (req, res, next) => {
+        logger.trace('MW called', req, res);
         validate(req.body);
         duplicationValidation(res);
         const newUser = {
@@ -30,7 +36,7 @@ function register(model) {
             tweets: {}
         };
         model.insert(newUser);
-        console.log('New user created:', newUser.userName);
+        logger.info('New user created: ' + newUser.userName);
         setWarning(req.session, 'Első bejelentkezésed előtt meg kell erősítsd az email címed');
         res.locals.user = newUser;
         return next();

@@ -35,8 +35,12 @@ import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
 import { fallback } from '../middleware/error/fallback.js';
+import { logging } from '../utility/logging.js';
+
+const logger = logging('init/middleware');
 
 function initMiddlewares({ db, model }) {
+    logger.debug('Middleware initialization started');
     const logic = {
         session,
         authorize,
@@ -112,6 +116,7 @@ function initMiddlewares({ db, model }) {
         publishTweet: publishTweetError,
         fallback
     };
+    logger.debug('Middleware initialization completed');
     return { logic, render, redirect, error };
 }
 

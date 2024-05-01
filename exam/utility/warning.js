@@ -1,8 +1,13 @@
+import { logging } from "./logging.js";
+
+const logger = logging('warning');
+
 function getWarning(session) {
     return session.warning;
 }
 
 function setWarning(session, text) {
+    logger.debug('Preparing warning: ' + text);
     session.warning = text;
 }
 

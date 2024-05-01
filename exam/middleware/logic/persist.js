@@ -1,10 +1,15 @@
+import { logging } from "../../utility/logging.js";
+
+const logger = logging('middleware/logic/persist');
+
 function persist(db) {
     return (req, res, next) => {
+        logger.trace('MW called', req, res);
         return db.saveDatabase((err) => {
             if (err) {
-                console.error("Error during saving to database", err);
+                logger.error("Error during saving to database", err);
             }
-            console.log("Database saved");
+            logger.debug("Database saved");
             return next();
         });
     }

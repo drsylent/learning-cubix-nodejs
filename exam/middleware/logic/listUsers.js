@@ -1,3 +1,7 @@
+import { logging } from "../../utility/logging.js";
+
+const logger = logging('middleware/logic/listUsers');
+
 function doesCurrentlyFollow(userName, signedInUser) {
     if (signedInUser && signedInUser.userName !== userName) {
         const found = signedInUser.follows.find(follows => follows === userName);
@@ -7,6 +11,7 @@ function doesCurrentlyFollow(userName, signedInUser) {
 
 function listUsers(model) {
     return (req, res, next) => {
+        logger.trace('MW called', req, res);
         res.locals.users = model.chain().data().map(user => ({
             userName: user.userName,
             currentlyFollows: doesCurrentlyFollow(user.userName, res.locals.user)
