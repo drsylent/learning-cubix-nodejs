@@ -34,6 +34,7 @@ import { deleteTweet } from '../middleware/logic/deleteTweet.js';
 import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
+import { notFound } from '../middleware/view/notFound.js';
 import { fallback } from '../middleware/error/fallback.js';
 import { logging } from '../utility/logging.js';
 
@@ -117,7 +118,7 @@ function initMiddlewares({ db, model }) {
         fallback
     };
     logger.debug('Middleware initialization completed');
-    return { logic, render, redirect, error };
+    return { logic, render, redirect, error, notFound };
 }
 
 export { initMiddlewares };

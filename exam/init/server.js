@@ -3,7 +3,7 @@ import { logging } from "../utility/logging.js";
 
 const logger = logging('init/server');
 
-function initRoutes(app, { logic, render, redirect }) {
+function initRoutes(app, { logic, render, redirect, notFound }) {
     app.use(logic.session);
     app.get('/', logic.mustNotBeSignedIn, render.main);
     app.get('/login', logic.mustNotBeSignedIn, render.login);
@@ -48,6 +48,7 @@ function initRoutes(app, { logic, render, redirect }) {
     app.post('/account/password/modify', logic.authorize, logic.findUser.signedIn, 
             logic.modifyPassword, logic.persist, redirect.modifyPassword);
     app.get('/error', render.error);
+    app.get('/favicon.ico', notFound);
     // fallback to main page if non-existent page is queried
     app.get('*', redirect.main);
 }
