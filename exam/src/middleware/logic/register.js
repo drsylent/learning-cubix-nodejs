@@ -1,7 +1,6 @@
 import { object, string } from 'yup';
 import { setWarning } from "../../utility/warning.js";
-import { basicErrorMessage } from "../error/register.js";
-import { duplicationErrorMessage } from "../error/register.js";
+import { throwError } from "../error/warningShowing.js";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/register');
@@ -16,11 +15,11 @@ async function validate(body, res) {
     await schema.validate(body);
     if (body.password !== body.password2) {
         logger.debug("Invalid data was passed");
-        throw new Error(basicErrorMessage);
+        throwError('A két jelszó nem egyezett meg', '/register');
     }
     if (res.locals.userByEmail || res.locals.userByUserName) {
         logger.debug("User exists already with data like this");
-        throw new Error(duplicationErrorMessage);
+        throwError('A felhasználónév vagy az email cím már foglalt.', '/register');
     }
 }
 

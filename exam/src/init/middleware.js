@@ -1,41 +1,30 @@
 import { v4 as uuid } from 'uuid';
 import { session } from "../middleware/logic/session.js";
 import { authorize } from "../middleware/logic/authorize.js";
-import { authorize as authorizeError } from "../middleware/error/authorize.js";
 import { mustNotBeSignedIn } from "../middleware/logic/mustNotBeSignedIn.js";
-import { mustNotBeSignedIn as mustNotBeSignedInError } from "../middleware/error/mustNotBeSignedIn.js";
 import { findUser } from '../middleware/logic/findUser.js';
 import { register } from "../middleware/logic/register.js";
-import { register as registerError } from "../middleware/error/register.js";
 import { login } from '../middleware/logic/login.js';
-import { login as loginError } from '../middleware/error/login.js';
 import { logout } from '../middleware/logic/logout.js';
 import { emailSend } from "../middleware/logic/emailSend.js";
 import { emailSecret } from "../middleware/logic/emailSecret.js";
-import { emailSecret as emailSecretError } from '../middleware/error/emailSecret.js';
 import { modifyEmail } from '../middleware/logic/modifyEmail.js';
-import { modifyEmail as modifyEmailError } from '../middleware/error/modifyEmail.js';
 import { forgottenPasswordSecret } from '../middleware/logic/forgottenPasswordSecret.js';
-import { forgottenPasswordSecret as forgottenPasswordSecretError } from '../middleware/error/forgottenPasswordSecret.js';
 import { modifyPassword } from '../middleware/logic/modifyPassword.js';
-import { modifyPassword as modifyPasswordError } from '../middleware/error/modifyPassword.js';
 import { listFollows } from '../middleware/logic/listFollows.js';
 import { listUsers } from '../middleware/logic/listUsers.js';
 import { listTweets } from '../middleware/logic/listTweets.js';
-import { listTweets as listTweetsError } from '../middleware/error/listTweets.js';
 import { follow } from '../middleware/logic/follow.js';
-import { follow as followError } from '../middleware/error/follow.js';
 import { unfollow } from '../middleware/logic/unfollow.js';
-import { unfollow as unfollowError } from '../middleware/error/unfollow.js';
 import { findTweet } from '../middleware/logic/findTweet.js';
-import { findTweet as findTweetError } from '../middleware/error/findTweet.js';
 import { publishTweet } from '../middleware/logic/publishTweet.js';
 import { deleteTweet } from '../middleware/logic/deleteTweet.js';
 import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
 import { notFound } from '../middleware/view/notFound.js';
-import { validation } from '../middleware/error/validation.js'
+import { redirectSimply } from '../middleware/error/redirectSimply.js';
+import { warningShowing } from '../middleware/error/warningShowing.js';
 import { fallback } from '../middleware/error/fallback.js';
 import { logRequest } from '../middleware/observation/requestLogging.js';
 import { logging } from '../utility/logging.js';
@@ -70,7 +59,7 @@ function initMiddlewares({ db, model }) {
         register: register(model),
         emailSend,
         emailSecret: emailSecret(uuid),
-        modifyEmail: modifyEmail(model),
+        modifyEmail,
         forgottenPasswordSecret: forgottenPasswordSecret(uuid),
         modifyPassword,
         listFollows: listFollows(model),
@@ -105,19 +94,8 @@ function initMiddlewares({ db, model }) {
         signedInTweets: redirectMw('/:userName/tweets')
     };
     const error = {
-        authorize: authorizeError,
-        mustNotBeSignedIn: mustNotBeSignedInError,
-        login: loginError,
-        register: registerError,
-        emailSecret: emailSecretError,
-        forgottenPasswordSecret: forgottenPasswordSecretError,
-        modifyEmail: modifyEmailError,
-        modifyPassword: modifyPasswordError,
-        follow: followError,
-        unfollow: unfollowError,
-        listTweets: listTweetsError,
-        findTweet: findTweetError,
-        validation,
+        redirectSimply,
+        warningShowing,
         fallback
     };
     const observation = {

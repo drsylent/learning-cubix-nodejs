@@ -1,4 +1,4 @@
-import { errorMessage } from "../error/login.js";
+import { throwError } from "../error/warningShowing.js";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/login');
@@ -10,7 +10,7 @@ const login = (req, res, next) => {
         req.body.password !== user.password ||
         !user.email) {
             logger.debug("Failed login attempt");
-        throw new Error(errorMessage);
+            throwError('Ellenőrizd a bejelentkezési adataid.', '/login');
     }
     logger.info("Logged in user: " + user.userName);
     req.session.userName = user.userName;

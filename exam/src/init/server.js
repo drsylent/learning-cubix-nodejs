@@ -47,7 +47,7 @@ function initRoutes(app, { logic, render, redirect, notFound }) {
         logic.persist, redirect.main);
     app.get('/account/password/modify', logic.authorize, render.modifyPassword);
     app.post('/account/password/modify', logic.authorize, logic.findUser.signedIn,
-        logic.modifyPassword, logic.persist, redirect.modifyPassword);
+        logic.modifyPassword, logic.persist, redirect.main);
     app.get('/error', render.error);
     app.get('/favicon.ico', notFound);
     // fallback to main page if non-existent page is queried
@@ -55,18 +55,8 @@ function initRoutes(app, { logic, render, redirect, notFound }) {
 }
 
 function initErrorHandlers(app, errorMiddlewares) {
-    app.use(errorMiddlewares.authorize);
-    app.use(errorMiddlewares.mustNotBeSignedIn);
-    app.use(errorMiddlewares.login);
-    app.use(errorMiddlewares.register);
-    app.use(errorMiddlewares.modifyEmail);
-    app.use(errorMiddlewares.modifyPassword);
-    app.use(errorMiddlewares.emailSecret);
-    app.use(errorMiddlewares.forgottenPasswordSecret);
-    app.use(errorMiddlewares.follow);
-    app.use(errorMiddlewares.listTweets);
-    app.use(errorMiddlewares.findTweet);
-    app.use(errorMiddlewares.validation);
+    app.use(errorMiddlewares.redirectSimply);
+    app.use(errorMiddlewares.warningShowing);
     app.use(errorMiddlewares.fallback);
 }
 

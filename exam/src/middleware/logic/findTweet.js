@@ -1,4 +1,4 @@
-import { errorMessage } from "../error/findTweet.js";
+import { throwError } from "../error/warningShowing.js";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/findTweet');
@@ -15,7 +15,7 @@ const findTweet = (req, res, next) => {
         }
         else {
             logger.debug("But tweet is not from the signed in user");
-            throw new Error(errorMessage);
+            throwError('A tweet nem volt megtalálható.', '/' + req.session.userName + '/tweets');
         }
     }
     return next();

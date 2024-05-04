@@ -1,5 +1,5 @@
 import { object, string } from 'yup';
-import { basicErrorMessage, nonExistentErrorMessage } from "../error/modifyPassword.js";
+import { throwError } from "../error/warningShowing.js";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/modifyPassword');
@@ -12,9 +12,12 @@ async function validate(secret, body) {
     await schema.validate(body);
     if (body.password !== body.password2) {
         logger.debug("Invalid data was passed");
-        const err = new Error(basicErrorMessage);
-        err.secret = secret;
-        throw err;
+        if (secret) {
+            throwError('A két jelszó nem egyezett meg', '/password/modify/' + secret);
+        }
+        else {
+            throwError('A két jelszó nem egyezett meg', '/account/password/modify');
+        }
     }
 }
 
@@ -33,7 +36,7 @@ const modifyPassword = async (req, res, next) => {
     const user = userToModify(res.locals);
     if (!user) {
         logger.debug('No user found for modifying password');
-        throw new Error(nonExistentErrorMessage);
+        throwError('Ez a jelszókérelem lejárt.', '/login');
     }
     user.password = req.body.password;
     delete user.passwordSecret;

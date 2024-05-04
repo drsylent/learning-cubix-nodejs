@@ -1,4 +1,4 @@
-import { errorMessage } from "../error/listTweets.js";
+import { throwError } from "../error/warningShowing.js";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/listTweets');
@@ -8,7 +8,7 @@ function listTweetsForOneUser(model, userName, res) {
     const user = model.findOne({userName});
     if (!user) {
         logger.debug("User is not found");
-        throw new Error(errorMessage);
+        throwError('A megadott felhasználó nem létezik.', '/users');
     }
     if (res.locals.user) {
         logger.debug("There is a signed in user - checking whether they follow the user");
@@ -42,7 +42,7 @@ function listTweetsForFollowed(model, res) {
 
 function listTweets(model) {
     return (req, res, next) => {
-        logger.traceWithParameters('MW called', req, res);
+        logger.trace('MW called', req, res);
         res.locals.tweets = [];
         if (req.params.userName) {
             listTweetsForOneUser(model, req.params.userName, res);

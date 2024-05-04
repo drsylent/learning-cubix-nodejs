@@ -1,5 +1,5 @@
 import { object, string } from 'yup';
-import { errorMessage } from "../error/forgottenPasswordSecret.js";
+import { throwError } from "../error/redirectSimply.js";
 import { prepareEmail } from "./emailSend.js";
 import { configValue } from "../../utility/config.js";
 import { logging } from "../../utility/logging.js";
@@ -15,7 +15,7 @@ function forgottenPasswordSecret(uuid) {
         await schema.validate(req.body);
         if (!res.locals.userByEmail) {
             logger.debug('User is not found by email');
-            throw new Error(errorMessage);
+            throwError('Nem található ilyen email címmel felhasználó', '/login');
         }
         const secret = uuid();
         res.locals.userByEmail.passwordSecret = secret;

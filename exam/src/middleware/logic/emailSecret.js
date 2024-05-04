@@ -1,6 +1,6 @@
 import { object, string } from 'yup';
 import { prepareEmail } from "./emailSend.js";
-import { errorMessage } from "../error/emailSecret.js";
+import { throwError } from "../error/warningShowing.js";
 import { configValue } from "../../utility/config.js";
 import { logging } from "../../utility/logging.js";
 
@@ -15,7 +15,7 @@ function emailSecret(uuid) {
         await schema.validate(req.body);
         if (res.locals.userByEmail) {
             logger.debug('User found by email - email is already used');
-            throw new Error(errorMessage);
+            throwError('Ez az email cím már használatban van.', '/account/email/modify');
         }
         const secret = uuid();
         res.locals.user.emailSecret = secret;
