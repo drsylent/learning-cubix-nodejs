@@ -1,13 +1,11 @@
-import loki from "lokijs";
 import { loadDatabase, saveDatabase } from "../db/lokijs.js";
 import { logging } from "../utility/logging.js";
 
 const logger = logging('init/db');
 
-async function initDatabase(databaseLocation) {
+async function initDatabase() {
     logger.debug('Database initialization started');
-    const db = new loki(databaseLocation);
-    await loadDatabase(db);
+    const db = await loadDatabase();
     let model = db.getCollection('tjs');
     if (model === null) {
         logger.info('Creating new collection, as it was not found');

@@ -1,5 +1,5 @@
 import express from "express";
-import { configValue } from "../utility/config.js";
+import { createServerInstance, startListening } from "../server/express.js";
 import { logging } from "../utility/logging.js";
 
 const logger = logging('init/server');
@@ -70,31 +70,9 @@ function initErrorHandlers(app, errorMiddlewares) {
     app.use(errorMiddlewares.fallback);
 }
 
-function shutdown(server) {
-    return server.close(err => {
-        if (err) {
-            logger.error("Error during shutting down");
-            process.exit(1);
-        }
-        else {
-            logger.info("Shutting down");
-            process.exit(0);
-        }
-    })
-}
-
-function prepareShutdownSignals(server) {
-    // prepare for signals for graceful stopping
-    process.on("SIGINT", () => shutdown(server));
-    process.on("SIGTERM", () => shutdown(server));
-}
-
 function initServer(middlewares) {
     logger.debug('Server initialization started');
-    const app = express();
-
-    // parse application/x-www-form-urlencoded
-    app.use(express.urlencoded({ extended: false }));
+    const app = createServerInstance();
 
     // static assets (CSS)
     app.use('/assets', express.static('assets'));
@@ -104,11 +82,7 @@ function initServer(middlewares) {
     initErrorHandlers(app, middlewares.error);
     logger.debug('Server initialization completed');
 
-    const port = Number.parseInt(configValue("SERVER_PORT", "8080"));
-    const server = app.listen(port, function () {
-        logger.info('Server is listening on port ' + port);
-    });
-    prepareShutdownSignals(server);
+    startListening(app);
 }
 
 export { initServer };
