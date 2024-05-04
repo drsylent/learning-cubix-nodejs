@@ -1,15 +1,20 @@
+import { object, string } from 'yup';
 import { prepareEmail } from "./emailSend.js";
 import { errorMessage } from "../error/emailSecret.js";
 import { configValue } from "../../utility/config.js";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/emailSecret');
+const schema = object({
+    email: string().required("Add meg az email címed").email("Adj meg egy érvényes email címet")
+});
 
 function emailSecret(uuid) {
-    return (req, res, next) => {
+    return async (req, res, next) => {
         logger.traceWithParameters('MW called', req, res);
+        await schema.validate(req.body);
         if (res.locals.userByEmail) {
-            logger.debug('User is not found by email secret');
+            logger.debug('User found by email - email is already used');
             throw new Error(errorMessage);
         }
         const secret = uuid();

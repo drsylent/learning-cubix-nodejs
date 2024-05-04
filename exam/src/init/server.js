@@ -66,7 +66,7 @@ function initErrorHandlers(app, errorMiddlewares) {
     app.use(errorMiddlewares.follow);
     app.use(errorMiddlewares.listTweets);
     app.use(errorMiddlewares.findTweet);
-    app.use(errorMiddlewares.publishTweet);
+    app.use(errorMiddlewares.validation);
     app.use(errorMiddlewares.fallback);
 }
 

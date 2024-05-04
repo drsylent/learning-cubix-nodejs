@@ -30,12 +30,12 @@ import { unfollow as unfollowError } from '../middleware/error/unfollow.js';
 import { findTweet } from '../middleware/logic/findTweet.js';
 import { findTweet as findTweetError } from '../middleware/error/findTweet.js';
 import { publishTweet } from '../middleware/logic/publishTweet.js';
-import { publishTweet as publishTweetError } from '../middleware/error/publishTweet.js';
 import { deleteTweet } from '../middleware/logic/deleteTweet.js';
 import { persist } from '../middleware/logic/persist.js';
 import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
 import { notFound } from '../middleware/view/notFound.js';
+import { validation } from '../middleware/error/validation.js'
 import { fallback } from '../middleware/error/fallback.js';
 import { logRequest } from '../middleware/observation/requestLogging.js';
 import { logging } from '../utility/logging.js';
@@ -117,7 +117,7 @@ function initMiddlewares({ db, model }) {
         unfollow: unfollowError,
         listTweets: listTweetsError,
         findTweet: findTweetError,
-        publishTweet: publishTweetError,
+        validation,
         fallback
     };
     const observation = {
