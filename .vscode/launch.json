@@ -65,7 +65,8 @@
                 "<node_internals>/**"
             ],
             "env": {
-                "DATABASE_LOCATION": "tjs.db"
+                "DATABASE_LOCATION": "tjs.db",
+                "LOGGING_LEVEL": "INFO"
             },
             "type": "node"
         }
