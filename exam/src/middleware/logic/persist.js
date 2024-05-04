@@ -1,17 +1,19 @@
+import { saveDatabase } from "../../db/lokijs.js"
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/persist');
 
 function persist(db) {
-    return (req, res, next) => {
+    return async (req, res, next) => {
         logger.traceWithParameters('MW called', req, res);
-        return db.saveDatabase((err) => {
-            if (err) {
-                logger.error("Error during saving to database", err);
-            }
+        try {
+            await saveDatabase(db);
             logger.debug("Database saved");
             return next();
-        });
+        } catch (err) {
+            logger.error("Error during saving to database", err);
+            throw err;
+        }
     }
 }
 

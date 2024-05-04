@@ -1,4 +1,5 @@
 import express from "express";
+import "express-async-errors";
 import { configValue } from "../utility/config.js";
 import { logging } from "../utility/logging.js";
 
