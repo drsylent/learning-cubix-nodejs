@@ -6,17 +6,17 @@ import { logging } from "./utility/logging.js";
 
 const logger = logging("index");
 
-function startup(databaseLocation) {
+async function startup(databaseLocation) {
     logger.info('Starting up application - database location: ' + databaseLocation);
-    initDatabase(databaseLocation, (err, objectRepository) => {
-        if (err) {
-            logger.error('Database initialization failed, stopping application', err);
-            throw err;
-        }
+    try {
+        const objectRepository = await initDatabase(databaseLocation);
         objectRepository.middlewares = initMiddlewares(objectRepository);
         initServer(objectRepository.middlewares);
-        logger.info('Startup completed');
-    });
+    } catch (err) {
+        logger.error('Database initialization failed, stopping application', err);
+        throw err;
+    }
+    logger.info('Startup completed');
 }
 
 startup(configValue("DATABASE_LOCATION"));
