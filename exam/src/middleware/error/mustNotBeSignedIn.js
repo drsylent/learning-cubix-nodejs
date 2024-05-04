@@ -5,7 +5,7 @@ const logger = logging('middleware/error/mustNotBeSignedIn');
 
 const mustNotBeSignedIn = (err, req, res, next) => {
     if (err.message === errorMessage) {
-        logger.debugOrTrace("Caught error: " + err.message, req, res);
+        logger.debugOrTraceWithParameters("Caught error: " + err.message, req, res);
         return res.redirect('/account/followed/tweets'); 
     }
     return next(err);

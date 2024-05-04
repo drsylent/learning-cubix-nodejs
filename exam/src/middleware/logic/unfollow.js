@@ -4,7 +4,7 @@ import { logging } from "../../utility/logging.js";
 const logger = logging('middleware/logic/unfollow');
 
 const unfollow = (req, res, next) => {
-    logger.trace('MW called', req, res);
+    logger.traceWithParameters('MW called', req, res);
     if (res.locals.userByUserName) {
         const foundIndex = res.locals.user.follows.indexOf(res.locals.userByUserName.userName);
         if (foundIndex < 0) {

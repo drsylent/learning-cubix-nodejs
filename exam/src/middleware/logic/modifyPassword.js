@@ -25,7 +25,7 @@ function userToModify({ user, userByPasswordSecret }) {
 }
 
 const modifyPassword = (req, res, next) => {
-    logger.trace('MW called', req, res);
+    logger.traceWithParameters('MW called', req, res);
     validate(req.params.secret, req.body);
     const user = userToModify(res.locals);
     if (!user) {

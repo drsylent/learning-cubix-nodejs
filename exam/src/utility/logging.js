@@ -6,9 +6,21 @@ function doLog(source, level, text) {
     console.log(`${level} [${source}]: ${text}`);
 }
 
+function isTraceEnabled() {
+    return level === 'TRACE';
+}
+
 function trace(source) {
+    return (text) => {
+        if (isTraceEnabled()) {
+            doLog(source, 'TRACE', text);
+        }
+    }
+}
+
+function traceWithParameters(source) {
     return (text, { params }, { locals }) => {
-        if (level === 'TRACE') {
+        if (isTraceEnabled()) {
             const requestParameters = JSON.stringify(params);
             const responseLocals = JSON.stringify(locals);
             doLog(source, 'TRACE', `${text} (request params: ${requestParameters}, response locals: ${responseLocals})`);
@@ -16,9 +28,13 @@ function trace(source) {
     }
 }
 
+function isDebugEnabled() {
+    return level === 'DEBUG' || isTraceEnabled();
+}
+
 function debug(source) {
     return (text) => {
-        if (level === 'DEBUG' || level === 'TRACE') {
+        if (isDebugEnabled()) {
             doLog(source, 'DEBUG', text);
         }
     }
@@ -26,7 +42,7 @@ function debug(source) {
 
 function debugOrTrace(debugLog, traceLog) {
     return (text, req, res) => {
-        if (level === 'TRACE') {
+        if (isTraceEnabled()) {
             traceLog(text, req, res);
         }
         else {
@@ -35,9 +51,13 @@ function debugOrTrace(debugLog, traceLog) {
     }
 }
 
+function isInfoEnabled() {
+    return level === 'INFO' || isDebugEnabled();
+}
+
 function info(source) {
     return (text) => {
-        if (level === 'INFO' || level === 'DEBUG' || level === 'TRACE') {
+        if (isInfoEnabled()) {
             doLog(source, 'INFO', text);
         }
     }
@@ -60,9 +80,10 @@ function logging(source) {
         info: info(source),
         debug: debug(source),
         trace: trace(source),
-        debugOrTrace: debugOrTrace(debug(source), trace(source)),
+        traceWithParameters: traceWithParameters(source),
+        debugOrTraceWithParameters: debugOrTrace(debug(source), traceWithParameters(source)),
         error: error(source)
     };
 }
 
-export { logging };
+export { logging, isInfoEnabled, isDebugEnabled, isTraceEnabled };

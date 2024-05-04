@@ -99,6 +99,7 @@ function initServer(middlewares) {
     // static assets (CSS)
     app.use('/assets', express.static('assets'));
 
+    app.use(middlewares.observation.logRequest);
     initRoutes(app, middlewares);
     initErrorHandlers(app, middlewares.error);
     logger.debug('Server initialization completed');

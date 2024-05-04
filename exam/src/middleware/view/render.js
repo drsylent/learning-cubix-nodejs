@@ -9,7 +9,7 @@ function render(page) {
         clearWarning(req.session);
         res.locals.secret = req.params.secret;
         res.locals.signedInUserName = req.session.userName;
-        logger.debugOrTrace('Rendering page: ' + page, req, res);
+        logger.debugOrTraceWithParameters('Rendering page: ' + page, req, res);
         return res.render(page, res.locals);
     };
 }

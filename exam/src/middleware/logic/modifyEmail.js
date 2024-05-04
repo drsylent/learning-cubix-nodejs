@@ -5,7 +5,7 @@ const logger = logging('middleware/logic/modifyEmail');
 
 function modifyEmail(model) {
     return (req, res, next) => {
-        logger.trace('MW called', req, res);
+        logger.traceWithParameters('MW called', req, res);
         const user = res.locals.userByEmailSecret;
         if (!user) {
             logger.debug('User is not found by email secret');

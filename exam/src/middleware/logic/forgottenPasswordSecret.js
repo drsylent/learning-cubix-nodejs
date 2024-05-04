@@ -7,7 +7,7 @@ const logger = logging('middleware/logic/forgottenPasswordSecret');
 
 function forgottenPasswordSecret(uuid) {
     return (req, res, next) => {
-        logger.trace('MW called', req, res);
+        logger.traceWithParameters('MW called', req, res);
         if (!res.locals.userByEmail) {
             logger.debug('User is not found by email');
             throw new Error(errorMessage);

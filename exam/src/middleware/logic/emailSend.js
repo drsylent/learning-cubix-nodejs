@@ -11,7 +11,7 @@ function prepareEmail(res, address, content) {
 }
 
 const emailSend = (req, res, next) => {
-    logger.trace('MW called', req, res);
+    logger.traceWithParameters('MW called', req, res);
     if (res.locals.emailsToSend) {
         res.locals.emailsToSend.forEach(email => {
             logger.info(`Sending email to ${email.address} with content ${email.content}`);

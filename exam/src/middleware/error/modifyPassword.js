@@ -9,7 +9,7 @@ const nonExistentErrorMessage = 'modifyPassword-nonexistent';
 
 const modifyPassword = (err, req, res, next) => {
     if (err.message === basicErrorMessage) {
-        logger.debugOrTrace("Caught error: " + err.message, req, res);
+        logger.debugOrTraceWithParameters("Caught error: " + err.message, req, res);
         setWarning(req.session, 'Érvénytelen adatok - ellenőrizd');
         if (err.secret) {
             return res.redirect('/password/modify/' + err.secret);

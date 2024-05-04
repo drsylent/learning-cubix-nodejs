@@ -42,7 +42,7 @@ function listTweetsForFollowed(model, res) {
 
 function listTweets(model) {
     return (req, res, next) => {
-        logger.trace('MW called', req, res);
+        logger.traceWithParameters('MW called', req, res);
         res.locals.tweets = [];
         if (req.params.userName) {
             listTweetsForOneUser(model, req.params.userName, res);

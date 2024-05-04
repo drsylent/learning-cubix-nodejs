@@ -4,7 +4,7 @@ import { logging } from "../../utility/logging.js";
 const logger = logging('middleware/logic/findTweet');
 
 const findTweet = (req, res, next) => {
-    logger.trace('MW called', req, res);
+    logger.traceWithParameters('MW called', req, res);
     const tweetId = req.params.tweetId;
     if (tweetId) {
         logger.debug("Tweet found");

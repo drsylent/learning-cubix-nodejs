@@ -3,7 +3,7 @@ import { logging } from "../../utility/logging.js";
 const logger = logging('middleware/logic/logout');
 
 const logout = (req, res, next) => {
-    logger.trace('MW called', req, res);
+    logger.traceWithParameters('MW called', req, res);
     const userName = req.session.userName;
     return req.session.destroy(err => {
         if (err) {

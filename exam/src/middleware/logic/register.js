@@ -26,7 +26,7 @@ function duplicationValidation(res) {
 
 function register(model) {
     return (req, res, next) => {
-        logger.trace('MW called', req, res);
+        logger.traceWithParameters('MW called', req, res);
         validate(req.body);
         duplicationValidation(res);
         const newUser = {

@@ -4,7 +4,7 @@ import { logging } from "../../utility/logging.js";
 const logger = logging('middleware/logic/follow');
 
 const follow = (req, res, next) => {
-    logger.trace('MW called', req, res);
+    logger.traceWithParameters('MW called', req, res);
     if (res.locals.userByUserName) {
         if (res.locals.userByUserName.userName === res.locals.user.userName) {
             logger.debug("User tries to follow themselves");

@@ -37,6 +37,7 @@ import { render as renderMw } from "../middleware/view/render.js";
 import { redirect as redirectMw } from '../middleware/view/redirect.js';
 import { notFound } from '../middleware/view/notFound.js';
 import { fallback } from '../middleware/error/fallback.js';
+import { logRequest } from '../middleware/observation/requestLogging.js';
 import { logging } from '../utility/logging.js';
 
 const logger = logging('init/middleware');
@@ -119,8 +120,11 @@ function initMiddlewares({ db, model }) {
         publishTweet: publishTweetError,
         fallback
     };
+    const observation = {
+        logRequest
+    }
     logger.debug('Middleware initialization completed');
-    return { logic, render, redirect, error, notFound };
+    return { logic, render, redirect, error, observation, notFound };
 }
 
 export { initMiddlewares };

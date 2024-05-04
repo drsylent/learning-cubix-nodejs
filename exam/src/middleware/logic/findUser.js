@@ -4,7 +4,7 @@ const logger = logging('middleware/logic/findUser');
 
 function findUser(model, findGetter, valueSetter) {
     return (req, res, next) => {
-        logger.trace('MW called', req, res);
+        logger.traceWithParameters('MW called', req, res);
         const found = model.findOne(findGetter(req));
         if (found) {
             valueSetter(res, found);

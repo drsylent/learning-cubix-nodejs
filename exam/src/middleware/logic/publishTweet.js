@@ -5,7 +5,7 @@ const logger = logging('middleware/logic/publishTweet');
 
 function publishTweet(uuid) {
     return (req, res, next) => {
-        logger.trace('MW called', req, res);
+        logger.traceWithParameters('MW called', req, res);
         const newTweetContent = req.body.tweet.trim();
         if (!newTweetContent) {
             logger.debug("There is nothing to publish");

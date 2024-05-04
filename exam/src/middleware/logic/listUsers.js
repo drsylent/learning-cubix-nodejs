@@ -11,7 +11,7 @@ function doesCurrentlyFollow(userName, signedInUser) {
 
 function listUsers(model) {
     return (req, res, next) => {
-        logger.trace('MW called', req, res);
+        logger.traceWithParameters('MW called', req, res);
         res.locals.users = model.chain().data().map(user => ({
             userName: user.userName,
             currentlyFollows: doesCurrentlyFollow(user.userName, res.locals.user)
