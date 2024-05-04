@@ -40,7 +40,7 @@ function debug(source) {
     }
 }
 
-function debugOrTrace(debugLog, traceLog) {
+function debugOrTraceWithParameters(debugLog, traceLog) {
     return (text, req, res) => {
         if (isTraceEnabled()) {
             traceLog(text, req, res);
@@ -81,7 +81,7 @@ function logging(source) {
         debug: debug(source),
         trace: trace(source),
         traceWithParameters: traceWithParameters(source),
-        debugOrTraceWithParameters: debugOrTrace(debug(source), traceWithParameters(source)),
+        debugOrTraceWithParameters: debugOrTraceWithParameters(debug(source), traceWithParameters(source)),
         error: error(source)
     };
 }
