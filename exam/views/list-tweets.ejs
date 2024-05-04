@@ -31,7 +31,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><%= userName %></h5>
-                    <p class="card-text text-center"><%= content %></p>
+                    <div class="card-text text-center tjs-multiline""><%= content %></div>
                     <% if (typeof signedInUserName !== 'undefined' && userName === signedInUserName) { %>
                     <div class="container">
                         <div class="row">
