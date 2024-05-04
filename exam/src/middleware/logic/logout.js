@@ -1,18 +1,19 @@
+import { promisify } from "node:util";
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/logout');
 
-const logout = (req, res, next) => {
+const logout = async (req, res, next) => {
     logger.traceWithParameters('MW called', req, res);
     const userName = req.session.userName;
-    return req.session.destroy(err => {
-        if (err) {
-            logger.error("Error happened during session destroying");
-            console.error(err);
-        }
+    const destroy = promisify(req.session.destroy).bind(req.session);
+    try {
+        await destroy();
         logger.info("Logged out user: " + userName);
-        return next();
-    });
+    } catch (err) {
+        logger.error("Error happened during session destroying", err);
+    }
+    return next();
 };
 
 export { logout };
