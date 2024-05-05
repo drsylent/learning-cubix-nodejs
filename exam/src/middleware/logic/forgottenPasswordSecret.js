@@ -2,6 +2,7 @@ import { object, string } from 'yup';
 import { throwError } from "../error/redirectSimply.js";
 import { prepareEmail } from "./emailSend.js";
 import { configValue } from "../../utility/config.js";
+import { setWarning } from '../../utility/warning.js';
 import { logging } from "../../utility/logging.js";
 
 const logger = logging('middleware/logic/forgottenPasswordSecret');
@@ -12,6 +13,7 @@ const schema = object({
 function forgottenPasswordSecret(uuid) {
     return async (req, res, next) => {
         logger.traceWithParameters('MW called', req, res);
+        setWarning(req.session, 'Amennyiben van ilyen email címmel regisztrált felhasználó, kiküldésre került egy link');
         await schema.validate(req.body);
         if (!res.locals.userByEmail) {
             logger.debug('User is not found by email');

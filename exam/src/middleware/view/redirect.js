@@ -4,11 +4,12 @@ const logger = logging('middleware/view/redirect');
 
 function redirect(path) {
     return (req, res, next) => {
+        let usedPath = path;
         if (path.includes(':userName')) {
-            path = path.replace(':userName', req.session.userName);
+            usedPath = path.replace(':userName', req.session.userName);
         }
-        logger.debug('Redirect to: ' + path);
-        return res.redirect(path); 
+        logger.debug('Redirect to: ' + usedPath);
+        return res.redirect(usedPath); 
     };
 }
 

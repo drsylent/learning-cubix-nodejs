@@ -66,7 +66,9 @@
             ],
             "env": {
                 "DATABASE_LOCATION": "tjs.db",
-                "LOGGING_LEVEL": "INFO"
+                "LOGGING_LEVEL": "INFO",
+                "SERVER_PORT": "9080",
+                "BASE_URL": "http://localhost:9080"
             },
             "type": "node"
         }

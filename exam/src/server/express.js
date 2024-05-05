@@ -33,7 +33,10 @@ function prepareShutdownSignals(server) {
 
 function startListening(app) {
     const port = Number.parseInt(configValue("SERVER_PORT", "8080"));
-    const server = app.listen(port, () => logger.info('Server is listening on port ' + port));
+    const server = app.listen(port, () => { 
+        logger.debug('Server is listening on port ' + port)
+        logger.info('Application available at: ' + configValue("BASE_URL", "http://localhost:8080"));
+    });
     prepareShutdownSignals(server);
 }
 
