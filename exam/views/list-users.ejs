@@ -14,7 +14,7 @@
                             <% if (typeof user.currentlyFollows !== 'undefined') { %>
                             <% if (user.currentlyFollows) { %>
                             <form class="col-5 text-end" method="POST" action="/account/unfollow/<%= user.userName %>">
-                                <button class="btn btn-danger" type="submit">Követés leállítása</button>
+                                <button class="btn btn-warning" type="submit">Követés leállítása</button>
                             </form>
                             <% } else { %>
                             <form class="col-5 text-end" method="POST" action="/account/follow/<%= user.userName %>">
