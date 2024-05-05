@@ -13,11 +13,15 @@ const schema = object({
 function forgottenPasswordSecret(uuid) {
     return async (req, res, next) => {
         logger.traceWithParameters('MW called', req, res);
-        setWarning(req.session, 'Amennyiben van ilyen email címmel regisztrált felhasználó, kiküldésre került egy link');
+        setWarning(req.session, 'A megerősített email címre kiküldésre került egy link');
         await schema.validate(req.body);
         if (!res.locals.userByEmail) {
             logger.debug('User is not found by email');
             throwError('Nem található ilyen email címmel felhasználó', '/login');
+        }
+        if (!res.locals.userByEmail.email) {
+            logger.debug('User does not have a confirmed email yet');
+            throwError('Nincs megerősített email címe a felhasználónak', '/login');
         }
         const secret = uuid();
         res.locals.userByEmail.passwordSecret = secret;

@@ -14,8 +14,13 @@ const emailSend = (req, res, next) => {
     logger.traceWithParameters('MW called', req, res);
     if (res.locals.emailsToSend) {
         res.locals.emailsToSend.forEach(email => {
-            logger.info(`Sending email to ${email.address} with content ${email.content}`);
-            // email sending would be here
+            if (email.address) {
+                logger.info(`Sending email to ${email.address} with content ${email.content}`);
+                // email sending would be here
+            }
+            else {
+                logger.error("It seems that an email should be sent per route - but email address was not set! Content supposed to be: " + email.content);
+            }
         });
     }
     else {
