@@ -1,0 +1,14 @@
+services:
+  tjs:
+    image: ghcr.io/drsylent/cubix/nodejs/exam:latest
+    environment:
+      DATABASE_LOCATION: /db/tjs.db
+      LOGGING_LEVEL: INFO
+      BASE_URL: http://localhost:9080
+    ports:
+      - 9080:8080
+    volumes:
+      - tjs-database:/db
+
+volumes:
+  tjs-database: {}
