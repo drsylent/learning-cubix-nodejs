@@ -11,13 +11,13 @@ const schema = object({
     password2: string().required('Meg kell ismételd a jelszót a második mezőben').trim()
 });
 
-async function validate(body, res) {
+async function validate(body, locals) {
     await schema.validate(body);
     if (body.password !== body.password2) {
         logger.debug("Invalid data was passed");
         throwError('A két jelszó nem egyezett meg', '/register');
     }
-    if (res.locals.userByEmail || res.locals.userByUserName) {
+    if (locals.userByEmail || locals.userByUserName) {
         logger.debug("User exists already with data like this");
         throwError('A felhasználónév vagy az email cím már foglalt.', '/register');
     }
@@ -26,7 +26,7 @@ async function validate(body, res) {
 function register(model) {
     return async (req, res, next) => {
         logger.traceWithParameters('MW called', req, res);
-        await validate(req.body);
+        await validate(req.body, res.locals);
         const newUser = {
             userName: req.body.userName,
             password: req.body.password,
