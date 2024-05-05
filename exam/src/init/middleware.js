@@ -62,7 +62,7 @@ function initMiddlewares({ db, model }) {
         modifyEmail,
         forgottenPasswordSecret: forgottenPasswordSecret(uuid),
         modifyPassword,
-        listFollows: listFollows(model),
+        listFollows,
         listUsers: listUsers(model),
         listTweets: listTweets(model),
         follow,

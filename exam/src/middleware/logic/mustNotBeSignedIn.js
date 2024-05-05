@@ -7,7 +7,7 @@ const mustNotBeSignedIn = (req, res, next) => {
     logger.traceWithParameters('MW called', req, res);
     if (req.session.userName) {
         logger.debug('User should not be signed in');
-        throwError('Ezt az oldalt bejelentkezett felhasználók nem használhatják', '/account/followed/tweets');
+        throwError('Ezt az oldalt bejelentkezett felhasználók nem használhatják', '/');
     }
     return next();
 }

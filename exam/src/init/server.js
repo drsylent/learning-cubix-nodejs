@@ -9,7 +9,7 @@ function initRoutes(app, { logic, render, redirect, notFound }) {
     app.get('/', logic.mustNotBeSignedIn, render.main);
     app.get('/login', logic.mustNotBeSignedIn, render.login);
     app.post('/login', logic.mustNotBeSignedIn, logic.findUser.userName,
-        logic.login, redirect.followedTweets);
+        logic.login, redirect.main);
     app.post('/logout', logic.logout, redirect.main);
     app.get('/register', logic.mustNotBeSignedIn, render.register);
     app.post('/register', logic.mustNotBeSignedIn,

@@ -15,7 +15,7 @@ const findTweet = (req, res, next) => {
         }
         else {
             logger.debug("But tweet is not from the signed in user");
-            throwError('A tweet nem volt megtalálható.', '/' + req.session.userName + '/tweets');
+            throwError('A tweet nem volt megtalálható.', `/${req.session.userName}/tweets`);
         }
     }
     return next();
